@@ -1,0 +1,20 @@
+<div class="nav">
+  <div class="left">
+    <span class="item">
+      <fa-icon class="icon" [icon]="faPlus" tooltip="Add, Clone or Create a repository"></fa-icon>
+    </span>
+    <span class="item">
+      <fa-icon class="icon" *ngIf="sidebarIsOpen" [icon]="faToggleOn" (click)="toggleLeftSidenav()"></fa-icon>
+      <fa-icon class="icon" *ngIf="!sidebarIsOpen" [icon]="faToggleOff" (click)="toggleLeftSidenav()"></fa-icon>
+    </span>
+    <span class="item">
+      <span>{{ currentBranch }}</span>
+    </span>
+  </div>
+  <div class="center"></div>
+  <div class="right">
+    <span class="item">
+      <fa-icon class="icon" [icon]="faCog" tooltip="Settings" (click)="showSettings()"></fa-icon>
+    </span>
+  </div>
+</div>

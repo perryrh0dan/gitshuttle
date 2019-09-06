@@ -1,0 +1,13 @@
+<div class="settings">
+  <div (click)="close()" class="overlay" [@changeOverlayState] *ngIf="isShown"></div>
+  <div class="dialog" [@changeDivSize]="currentState">
+    <div class="header">
+      <div class="title">
+        <fa-icon [icon]="faArrowLeft" (click)="close()"></fa-icon>
+        <span>Settings</span>
+      </div>
+    </div>
+    <div class="body">
+    </div>
+  </div>
+</div>

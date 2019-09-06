@@ -1,0 +1,12 @@
+.main {
+  width: 100%;
+  height: calc(100% - 50px);
+
+  app-sidebar-left {
+    width: 20%;
+  }
+
+  router-outlet {
+    width: 80%;
+  }
+}
