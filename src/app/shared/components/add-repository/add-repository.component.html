@@ -1,0 +1,50 @@
+<!-- <div class="menu" style="width: 300px" ng-show="headerCtrl.showAddMenu">
+    <tabs>
+      <pane pane-title="{{ MSGS.ADD }}">
+        <section class="content">
+          <input class="inline-filed" type="text" name="repository" ng-model="headerCtrl.repositoryPath"
+            placeholder="{{ MSGS['Where are your stuffs'] }}?" />
+          <button class="no-shadow" type="button" ng-click="headerCtrl.showOpenDialog('repositoryPath')" title="{{ MSGS['Browse directory'] }}">
+            <span class="octicon octicon-file-symlink-directory"></span>
+          </button>
+        </section>
+        <footer><button class="featured" ng-click="headerCtrl.addRepository(headerCtrl.repositoryPath)"><span class="octicon octicon-file-directory"></span> {{ MSGS["ADD REPOSITORY"] }}</button> </footer>
+      </pane>
+      <pane pane-title="{{ MSGS.CLONE }}">
+        <section class="content">
+          <input type="text" style="width: 100%; box-sizing: border-box" ng-model="headerCtrl.cloneURL"
+            placeholder="{{ MSGS['Clone URL'] }}" />
+          <input type="text" class="inline-filed" ng-model="headerCtrl.repositoryDestiny"
+            placeholder="{{ MSGS['Destination Folder'] }}" />
+            <button class="no-shadow" type="button" ng-click="headerCtrl.showOpenDialog('repositoryDestiny')" title="{{ MSGS['Browse directory'] }}">
+              <span class="octicon octicon-file-symlink-directory"></span>
+            </button>
+        </section>
+        <footer><button class="featured"
+          ng-click="headerCtrl.cloneRepository()"
+          ><span class="octicon octicon-repo-clone"></span> {{ MSGS.CLONE }}</button>
+        </footer>
+      </pane>
+      <pane pane-title="{{ MSGS.CREATE }}">
+        <section class="content">
+          <input type="text" style="width: 100%; box-sizing: border-box" ng-model="headerCtrl.repositoryName"
+            placeholder="{{ MSGS['Repository name'] }}" />
+          <span class="label" ng-show="headerCtrl.repositoryName.length">
+            {{ MSGS['Your repository will be created as'] }} <strong>"{{ headerCtrl.treatBranch(headerCtrl.repositoryName) }}"</strong></span>
+          <input type="text" class="inline-filed" ng-model="headerCtrl.repositoryHome"
+            placeholder="{{ MSGS['Folder'] }}" />
+          <button class="no-shadow" type="button" ng-click="headerCtrl.showOpenDialog('repositoryHome')" title="{{ MSGS['Browse directory'] }}">
+            <span class="octicon octicon-file-symlink-directory"></span>
+          </button>
+        </section>
+        <footer><button class="featured"
+          ng-click="headerCtrl.createRepository()"><span class="octicon octicon-repo"></span> {{ MSGS.CREATE }}</button>
+        </footer>
+      </pane>
+    </tabs>
+</div> -->
+<div>
+  <input class="inline-filed" type="text" name="repository" ng-model="repositoryPath"
+    placeholder="test" />
+  <button class="btn btn-primary" (click)="showOpenDialog('repositoryPath')">Select</button>
+</div>

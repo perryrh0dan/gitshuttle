@@ -21,8 +21,11 @@ import { HomeModule } from './home/home.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { SidebarLeftComponent } from './sidebar-left/sidebar-left.component';
+import { SidebarComponent } from './sidebar/sidebar.component'
 import { SettingsComponent } from './settings/settings.component';
+
+// Test
+import { AddRepositoryComponent } from './shared/components';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, SidebarLeftComponent, SettingsComponent],
+  declarations: [AppComponent, NavbarComponent, SidebarComponent, SettingsComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -50,6 +53,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddRepositoryComponent
+  ]
 })
 export class AppModule {}

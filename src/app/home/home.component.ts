@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RepositoryService } from '../core/services';
+import { Repository } from '../core/models';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  currentRepository: Repository;
 
-  constructor() { }
+  constructor(
+    private repositoryService: RepositoryService
+  ) { }
 
   ngOnInit() {
+    this.repositoryService.currentRepository.subscribe(value => {
+      this.currentRepository = value;
+    })
   }
-
 }
