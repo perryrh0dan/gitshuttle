@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-import { SidebarService } from './core/services/sidebar.service'
-import { SettingsService } from './core/services/settings.service'
+import { SidebarService } from './core/services/sidebar/sidebar.service'
+import { SettingsService } from './core/services'
 import { MatSidenav } from '@angular/material';
 
 @Component({

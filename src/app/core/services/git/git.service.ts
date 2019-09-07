@@ -1,6 +1,6 @@
 import { BehaviorSubject } from "rxjs";
 
-var git = require('../git');
+var git = require('../../libs/git');
 
 export class GitService {
   private currentBranchSubject;

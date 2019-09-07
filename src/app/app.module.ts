@@ -29,10 +29,10 @@ import { HomeModule } from './home/home.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarLeftComponent } from './sidebar-left/sidebar-left.component';
-import { SidebarService } from './core/services/sidebar.service';
-import { GitService } from './core/services/git.service';
+import { SidebarService } from './core/services';
+import { GitService } from './core/services';
 import { SettingsComponent } from './settings/settings.component';
-import { SettingsService } from './core/services/settings.service';
+import { SettingsService } from './core/services';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

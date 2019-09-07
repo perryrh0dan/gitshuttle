@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { SettingsService } from '../core/services/settings.service';
+import { SettingsService } from '../core/services';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({

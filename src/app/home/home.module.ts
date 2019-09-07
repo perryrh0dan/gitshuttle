@@ -6,7 +6,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 
-import { GitService } from '../core/services/git.service';
+import { GitService } from '../core/services';
 
 @NgModule({
   declarations: [HomeComponent],

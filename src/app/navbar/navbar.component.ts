@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus, faCog, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
-import { SidebarService } from '../core/services/sidebar.service';
-import { GitService } from '../core/services/git.service';
-import { SettingsService } from '../core/services/settings.service';
+import { SidebarService } from '../core/services/sidebar/sidebar.service';
+import { GitService } from '../core/services';
+import { SettingsService } from '../core/services';
 
 @Component({
   selector: 'app-navbar',
