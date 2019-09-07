@@ -17,22 +17,12 @@ import { MaterialModule } from './core/material/material.module'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-// Font Awesome
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-// Ngx Bootstrap
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
 import { HomeModule } from './home/home.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarLeftComponent } from './sidebar-left/sidebar-left.component';
-import { SidebarService } from './core/services';
-import { GitService } from './core/services';
 import { SettingsComponent } from './settings/settings.component';
-import { SettingsService } from './core/services';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -56,13 +46,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    TabsModule.forRoot(),
-    TooltipModule.forRoot(),
-    FontAwesomeModule,
     MaterialModule,
     BrowserAnimationsModule,
   ],
-  providers: [SidebarService, SettingsService, GitService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
