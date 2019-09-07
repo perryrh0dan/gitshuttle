@@ -21,17 +21,17 @@ export class NavbarComponent implements OnInit {
     private sidebarService: SidebarService,
     private settingsService: SettingsService,
     private gitService: GitService
-  ) { 
+  ) {
+
+  }
+
+  ngOnInit() {
     this.sidebarService.isOpen.subscribe(value => {
       this.sidebarIsOpen = value;
     })
     this.gitService.currentBranch.subscribe(value => {
       this.currentBranch = value;
     })
-  }
-
-  ngOnInit() {
-    this.sidebarService.isOpen
   }
 
   toggleLeftSidenav() {

@@ -10,7 +10,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   animations: [
     trigger('changeDivSize', [
       state('close', style({
-        'margin-left': '100%'
+        'margin-left': '105%'
       })),
       state('open', style({
         'margin-left': '35%'
