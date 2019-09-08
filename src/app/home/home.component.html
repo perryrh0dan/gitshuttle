@@ -3,9 +3,12 @@
     <span>Select a repository to start</span>
   </div>
   <div class="content" *ngIf="currentRepository">
-    <app-commits class="commits" (commitSelected)="selectedCommit = $event"></app-commits>
-    <div>
-      <app-main [selectedCommit]="selectedCommit"></app-main>
+    <div class="content-left">
+      <app-create-commit *ngIf="selectedTab?.heading === 'Changes'"></app-create-commit>
+      <app-commits class="commits" (commitSelected)="selectedCommit = $event"></app-commits>
+    </div>
+    <div class="content-right">
+      <app-main [selectedCommit]="selectedCommit" (selectedTab)="selectedTab = $event"></app-main>
     </div>
   </div>
 </div>

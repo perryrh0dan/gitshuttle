@@ -9,21 +9,19 @@ import { SharedModule } from '../shared/shared.module';
 // Ngx Bootstrap
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
-import { GitService } from '../core/services';
 import { CommitsComponent } from './commits/commits.component';
 import { MainComponent } from './main/main.component';
+import { CreateCommitComponent } from './create-commit/create-commit.component';
 
 @NgModule({
-  declarations: [HomeComponent, CommitsComponent, MainComponent],
+  declarations: [HomeComponent, CommitsComponent, MainComponent, CreateCommitComponent],
   imports: [
-    CommonModule, 
-    SharedModule, 
+    CommonModule,
+    SharedModule,
     HomeRoutingModule,
     TabsModule.forRoot()
   ]
 })
 export class HomeModule {
-  constructor(
-    private gitService: GitService
-  ) { }
+  constructor() { }
 }

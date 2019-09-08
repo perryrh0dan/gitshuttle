@@ -18,13 +18,19 @@
     display: flex;
     height: inherit;
 
-    .commits {
+    .content-left {
+      display: flex;
+      flex-flow: column;
       width: 35%;
-      height: inherit;
-      overflow: auto;
+      height: calc(100vh - 50px);
+
+      .commits {
+        flex: 2;
+        overflow: auto;
+      }
     }
 
-    div {
+    .content-right {
       width: 65%;
     }
   }

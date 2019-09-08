@@ -10,14 +10,15 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { PageNotFoundComponent } from './components/';
 import { WebviewDirective } from './directives/';
 import { AddRepositoryComponent } from './components/add-repository/add-repository.component';
-import { RepoFilterPipe } from './pipes';
+import { RepoFilterPipe, SanitizeHtmlPipe } from './pipes';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent, 
     WebviewDirective, 
     AddRepositoryComponent,
-    RepoFilterPipe  
+    RepoFilterPipe,
+    SanitizeHtmlPipe
   ],
   imports: [
     CommonModule,
@@ -29,7 +30,8 @@ import { RepoFilterPipe } from './pipes';
     TranslateModule,
     WebviewDirective,
     FormsModule,
-    RepoFilterPipe
+    RepoFilterPipe,
+    SanitizeHtmlPipe
   ],
   entryComponents: [
     AddRepositoryComponent

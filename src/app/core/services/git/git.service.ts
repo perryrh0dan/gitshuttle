@@ -16,10 +16,22 @@ export class GitService {
   }
 
   public getCommitHistory(opts) {
-    return git.getCommitHistory(opts)
+    return git.getCommitHistory(opts);
   }
 
   public getStatus(path) {
-    return git.getStatus(path)
+    return git.getStatus(path);
+  }
+
+  public getDiff(opts) {
+    return git.getDiff(opts);
+  }
+
+  public getFileDiff(opts) {
+    return git.getFileDiff(opts);
+  }
+
+  public getUnsyncFileDiff(opts) {
+    return git.getUnsyncFileDiff(opts)
   }
 }

@@ -1,0 +1,13 @@
+<form [@creation] name="commitForm" class="commit-block">
+  <h3>Commit changes</h3>
+  <div class="input-wraper">
+    <input name="commitMessage" class="form-control" type="text" [(ngModel)]="commitMessage" ng-focus="onFocusCommitMessageInput()"
+      placeholder="Type a message for your commit" required />
+    <textarea name="commitDescription" class="form-control" [(ngModel)]="commitDescription"
+      placeholder="Give a description to the commit. Tell more about your changes..."></textarea>
+  </div>
+  <button type="button" class="btn btn-primary"
+    ng-click="commitSelectedChanges(commitMessage, commitDescription, $event)">
+    Commit
+  </button>
+</form>

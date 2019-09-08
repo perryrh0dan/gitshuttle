@@ -8,8 +8,8 @@ import { Repository } from '../../core/models';
   styleUrls: ['./commits.component.scss']
 })
 export class CommitsComponent implements OnInit {
-  @Output() commitSelected:EventEmitter<{}> = new EventEmitter<{}>();
-  
+  @Output() commitSelected: EventEmitter<{}> = new EventEmitter<{}>();
+
   currentRepository: Repository;
   histroyList = [];
   selectedCommit;
@@ -29,6 +29,9 @@ export class CommitsComponent implements OnInit {
   loadCommits() {
     this.gitService.getCommitHistory(this.currentRepository).then(histroyList => {
       this.histroyList = histroyList;
+      if (histroyList.length > 0) {
+        this.selectCommit(histroyList[0]);
+      }
     })
   }
 

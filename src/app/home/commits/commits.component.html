@@ -19,7 +19,7 @@
 <div class="commits">
   <ul>
     <li>
-      <span>0 commits</span>
+      <span>{{ histroyList.length }} commits</span>
     </li>
     <li *ngFor="let commit of histroyList" (click)="selectCommit(commit)">
       <div class="thumb">

@@ -1,9 +1,3 @@
-.nav {
-  li {
-    width: 50% !important;
-  }
-}
-
 .commit-message {
   padding: 15px;
   border-bottom: #DDD 1px solid;
@@ -50,5 +44,9 @@ ul {
     box-sizing: border-box;
     cursor: pointer;
     word-wrap: break-word;
+
+    header {
+      padding: 10px 25px;
+    }
   }
 }
