@@ -3,7 +3,6 @@ import '../polyfills';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
@@ -12,6 +11,14 @@ import { AppRoutingModule } from './app-routing.module';
 // Angular Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from './core/material/material.module'
+
+// Font Awesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+// Ngx Bootstrap
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -36,11 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [AppComponent, NavbarComponent, SidebarComponent, SettingsComponent],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
-    CoreModule,
-    SharedModule,
-    HomeModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -51,6 +54,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     MaterialModule,
     BrowserAnimationsModule,
+    FontAwesomeModule,
+    TabsModule.forRoot(),
+    TooltipModule.forRoot(),
+    CoreModule,
+    SharedModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent],
@@ -58,4 +67,4 @@ export function HttpLoaderFactory(http: HttpClient) {
     AddRepositoryComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }

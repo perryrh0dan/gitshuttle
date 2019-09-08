@@ -44,7 +44,24 @@
     </tabs>
 </div> -->
 <div>
-  <input class="inline-filed" type="text" name="repository" ng-model="repositoryPath"
-    placeholder="test" />
-  <button class="btn btn-primary" (click)="showOpenDialog('repositoryPath')">Select</button>
+  <tabset>
+    <tab heading="ADD" id="add">
+      <form class="form-inline">
+        <input class="form-control" type="text" name="repository" [ngModel]="repositoryPath" placeholder="Where are your stuffs" />
+        <button class="btn btn-primary" (click)="showOpenDialog('repositoryPath')">Select</button>
+      </form>
+      <footer class="featured">
+        <button class="btn btn-primary" (click)="addRepository()">Add Repository</button>
+      </footer>
+    </tab>
+    <tab heading="CLONE" id="clone">
+      <form class="form-inline">
+        <input class="form-control" type="text" name="repository" [ngModel]="repositoryPath" placeholder="test" />
+        <button class="btn btn-primary" (click)="showOpenDialog('repositoryPath')">Select</button>
+      </form>
+      <footer class="featured">
+        <button class="btn btn-primary" (click)="addRepository()">Add Repository</button>
+      </footer>
+    </tab>
+  </tabset>
 </div>

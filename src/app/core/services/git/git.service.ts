@@ -30,4 +30,8 @@ export class GitService {
       console.log(error)
     });
   }
+
+  public listRemotes(path) {
+    return git.listRemotes(path)
+  }
 }

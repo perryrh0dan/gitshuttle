@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { GitService, RepositoryService } from '../../../core/services';
 const dialog = require('electron').remote.dialog;
 const browserWindow = require('electron').remote.BrowserWindow
 
@@ -9,20 +10,31 @@ const browserWindow = require('electron').remote.BrowserWindow
   styleUrls: ['./add-repository.component.scss']
 })
 export class AddRepositoryComponent implements OnInit {
+  repositoryPath;
 
-  constructor() { }
+  constructor(
+    private gitService: GitService,
+    private repositoryService: RepositoryService
+  ) { }
 
   ngOnInit() {
   }
 
   showOpenDialog(bindVarName) {
+    let self = this;
     let currentWindow = browserWindow.getFocusedWindow();
 
-    dialog.showOpenDialog(currentWindow, { properties: ['openDirectory'] }, function (filenames) {
-
-      if (filenames) {
-        this[bindVarName] = filenames[0];
+    dialog.showOpenDialog(currentWindow, { properties: ['openDirectory'] }).then((result) => {
+      // if (result.canceled) {
+      //   return;
+      // }
+      if (result.filePaths) {
+        self[bindVarName] = result.filePaths[0];
       }
-    }.bind(this));
+    });
+  }
+
+  addRepository() {
+    this.repositoryService.addRepository(this.repositoryPath);
   }
 }
