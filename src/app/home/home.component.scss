@@ -13,4 +13,19 @@
       font-size: 2.5em;
     }
   }
+
+  .content {
+    display: flex;
+    height: inherit;
+
+    .commits {
+      width: 35%;
+      height: inherit;
+      overflow: auto;
+    }
+
+    div {
+      width: 65%;
+    }
+  }
 }

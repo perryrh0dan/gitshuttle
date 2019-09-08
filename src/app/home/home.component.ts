@@ -9,6 +9,7 @@ import { Repository } from '../core/models';
 })
 export class HomeComponent implements OnInit {
   currentRepository: Repository;
+  selectedCommit;
 
   constructor(
     private repositoryService: RepositoryService

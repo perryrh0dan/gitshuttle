@@ -14,4 +14,12 @@ export class GitService {
   public listRemotes(path) {
     return git.listRemotes(path);
   }
+
+  public getCommitHistory(opts) {
+    return git.getCommitHistory(opts)
+  }
+
+  public getStatus(path) {
+    return git.getStatus(path)
+  }
 }

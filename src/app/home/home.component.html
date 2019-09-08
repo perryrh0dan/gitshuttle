@@ -2,7 +2,10 @@
   <div class="repoMissing" *ngIf="!currentRepository">
     <span>Select a repository to start</span>
   </div>
-  <div *ngIf="currentRepository">
-    {{currentRepository.name}}
+  <div class="content" *ngIf="currentRepository">
+    <app-commits class="commits" (commitSelected)="selectedCommit = $event"></app-commits>
+    <div>
+      <app-main [selectedCommit]="selectedCommit"></app-main>
+    </div>
   </div>
 </div>

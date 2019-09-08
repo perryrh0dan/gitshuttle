@@ -1,0 +1,34 @@
+<div class="main">
+  <tabset>
+    <tab heading="History">
+
+    </tab>
+    <tab heading="Changes">
+      <h1>{{ selectedCommit?.message }}</h1>
+      <header class="commit-message" ng-show="appCtrl.commitChanges.length > 0">
+        <h2 style="margin-bottom: 20px">Unsyncronized Changes</h2>
+
+        <h4 style="cursor: pointer" ng-click="appCtrl.collapseAll(appCtrl.commitChanges)">
+          <span class="octicon octicon-fold"></span>Collapse all</h4>
+        <h4 style="cursor: pointer" ng-click="appCtrl.expandAll(appCtrl.commitChanges)">
+          <span class="octicon octicon-unfold"></span>Expand all</h4>
+        <h4 style="cursor: pointer; float: right" ng-click="appCtrl.discartAllSelected(appCtrl.commitChanges)">
+          <span class="octicon octicon-trashcan"></span>Discart all selected</h4>
+      </header>
+      <ul>
+        <li *ngFor="let change of commitChanges">
+          <header [ngClass]="{'read-only' : (change.type == 'ADDED' || change.staged)}">
+            <span *ngIf="change.type == 'DELETED'" (click)="showFileDiff(change)"
+              [ngClass]="{ 'octicon-triangle-right': !change.showCode, 'octicon-triangle-down': change.showCode}"
+              class="octicon octicon-triangle-right"></span>
+            <input id="change{{$index}}" type="checkbox" [(ngModel)]="change.checked" checked="true" />
+            <label *ngIf="change.type == 'ADDED'" for="change{{$index}}"></label>
+            <span
+              title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}</span>
+          </header>
+          <!-- <code ng-show="change.showCode" ng-bind-html="change.code"></code> -->
+        </li>
+      </ul>
+    </tab>
+  </tabset>
+</div>
