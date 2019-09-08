@@ -4,7 +4,7 @@
   </div>
   <div class="content" *ngIf="currentRepository">
     <div class="content-left">
-      <app-create-commit *ngIf="selectedTab?.heading === 'Changes'"></app-create-commit>
+      <app-create-commit [status]="getCreateCommitStatus()"></app-create-commit>
       <app-commits class="commits" (commitSelected)="selectedCommit = $event"></app-commits>
     </div>
     <div class="content-right">

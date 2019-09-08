@@ -22,4 +22,12 @@ export class HomeComponent implements OnInit {
       this.currentRepository = value;
     })
   }
+
+  getCreateCommitStatus() {
+    if (this.selectedTab && this.selectedTab.heading === 'Changes') {
+      return 'open'
+    } else {
+      return 'close'
+    }
+  }
 }
