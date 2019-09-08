@@ -9,13 +9,16 @@ import { GitService } from './services';
 import { RepositoryService } from './services';
 import { SettingsService } from './services';
 import { SidebarService } from './services';
+import { BranchService } from './services';
+
+// Pipes
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    MaterialModule,
+    MaterialModule
   ],
-  providers: [GitService, RepositoryService, SettingsService, SidebarService]
+  providers: [GitService, RepositoryService, SettingsService, SidebarService, BranchService]
 })
 export class CoreModule { }

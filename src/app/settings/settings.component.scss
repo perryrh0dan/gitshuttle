@@ -33,11 +33,11 @@
       -webkit-app-region: drag;
       display: flex;
       flex-direction: row;
+      align-items: center;
 
       .title {
         font-size: 1.4em;
-        font-weight: bold;
-        padding: 12px 20px;
+        padding: 0px 20px;
         color: #FFF !important;
 
         fa-icon {
@@ -48,6 +48,8 @@
 
         span {
           font-size: 24px;
+          text-align: center;
+          font-weight: lighter;
         }
       }
     }

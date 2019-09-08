@@ -15,7 +15,5 @@ import { GitService } from '../core/services';
 export class HomeModule {
   constructor(
     private gitService: GitService
-  ) {
-    this.gitService.getCurrentBranch();
-  }
+  ) { }
 }

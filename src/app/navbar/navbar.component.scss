@@ -1,8 +1,8 @@
 .nav {
   display: flex;
   height: 50px;
-  /* optional; just for demo */
-  background: white;
+  background-color: #636e73;
+  color: #CCCCCC;
 
   .item {
     padding: 10px;
@@ -16,7 +16,6 @@
     flex: 1;
     display: flex;
     align-items: center;
-    border: 1px dashed red;
   }
 
   .center {
@@ -24,7 +23,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dashed red;
   }
 
   .right {
@@ -32,6 +30,5 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    border: 1px dashed red;
   }
 }

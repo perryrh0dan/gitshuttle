@@ -2,4 +2,7 @@
   <div class="repoMissing" *ngIf="!currentRepository">
     <span>Select a repository to start</span>
   </div>
+  <div *ngIf="currentRepository">
+    {{currentRepository.name}}
+  </div>
 </div>

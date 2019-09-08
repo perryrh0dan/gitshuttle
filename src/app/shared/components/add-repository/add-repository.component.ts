@@ -35,6 +35,8 @@ export class AddRepositoryComponent implements OnInit {
   }
 
   addRepository() {
-    this.repositoryService.addRepository(this.repositoryPath);
+    this.repositoryService.addRepository(this.repositoryPath).then(repository => {
+      
+    });
   }
 }

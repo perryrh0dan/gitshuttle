@@ -7,6 +7,7 @@ import { GitService } from '../core/services';
 import { SettingsService } from '../core/services';
 
 import { AddRepositoryComponent } from '../shared/components';
+import { BranchService } from '../core/services/branch/branch.service';
 
 @Component({
   selector: 'app-navbar',
@@ -24,7 +25,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private sidebarService: SidebarService,
     private settingsService: SettingsService,
-    private gitService: GitService,
+    private branchService: BranchService,
     private dialog: MatDialog,
   ) {
 
@@ -34,7 +35,7 @@ export class NavbarComponent implements OnInit {
     this.sidebarService.isOpen.subscribe(value => {
       this.sidebarIsOpen = value;
     })
-    this.gitService.currentBranch.subscribe(value => {
+    this.branchService.currentBranch.subscribe(value => {
       this.currentBranch = value;
     })
   }

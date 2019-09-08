@@ -22,13 +22,16 @@ export class RepositoryService {
   load() {
     const repoList = Array<Repository>();
     const repositoryString = localStorage.getItem('repos')
-    JSON.parse(repositoryString).forEach(element => {
-      let repo = new Repository();
-      repo.name = element.name;
-      repo.path = element.path;
-      repo.type = element.type;
-      repoList.push(repo)
-    });
+    const repoArray = JSON.parse(repositoryString)
+    if (repoArray) {
+      repoArray.forEach(element => {
+        let repo = new Repository();
+        repo.name = element.name;
+        repo.path = element.path;
+        repo.type = element.type;
+        repoList.push(repo)
+      });
+    }
     this.repositoriesSubject.next(repoList);
   }
 
@@ -36,15 +39,52 @@ export class RepositoryService {
     localStorage.setItem('repos', JSON.stringify(repository));
   }
 
+  selectRepository(repository) {
+    this.currentRepositorySubject.next(repository);
+  }
+
   addRepository(path) {
-    this.gitService.listRemotes(path).then(repositoryRemotes => {
+    return this.gitService.listRemotes(path).then(repositoryRemotes => {
+      let gitUrlParse = require('git-url-parse');
+      let gitUrl = gitUrlParse(repositoryRemotes.origin.push)
+      let repositoryExists;
       let newRepository = new Repository();
-      newRepository.name = path;
+      newRepository.name = gitUrl.name;
       newRepository.path = path;
-      newRepository.type = RepoType.OTHER;
-      let newRepositories = this.repositoriesSubject.value;
-      newRepositories.push(newRepository);
-      this.save(newRepositories);
+
+      switch (gitUrl.resource) {
+        case 'github.com':
+          repositoryExists = this.findWhere(this.repositoriesSubject.value, { path: path });
+          newRepository.type = RepoType.GITHUB;
+          break;
+        case 'gitlab.com':
+          repositoryExists = this.findWhere(this.repositoriesSubject.value, { path: path });
+          newRepository.type = RepoType.GITLAB;
+          break;
+        default:
+          repositoryExists = this.findWhere(this.repositoriesSubject.value, { path: path });
+          newRepository.type = RepoType.OTHER;
+          break;
+      }
+
+      if (!repositoryExists) {
+        let newRepositories = this.repositoriesSubject.value;
+        newRepositories.push(newRepository);
+        this.save(newRepositories);
+        this.currentRepositorySubject.next(newRepository);
+      } else {
+        this.currentRepositorySubject.next(repositoryExists);
+      }
     })
+  }
+
+  findWhere(array, object) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i][Object.keys(object)[0]] == object[Object.keys(object)[0]]) {
+        return array[i];
+      }
+    }
+
+    return null;
   }
 }
