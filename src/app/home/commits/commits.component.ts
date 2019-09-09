@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { GitService, RepositoryService } from '../../core/services';
 import { Repository } from '../../core/models';
 
@@ -7,36 +7,23 @@ import { Repository } from '../../core/models';
   templateUrl: './commits.component.html',
   styleUrls: ['./commits.component.scss']
 })
-export class CommitsComponent implements OnInit {
+export class CommitsComponent implements OnChanges {
+  @Input() historyList: Array<{}>;
   @Output() commitSelected: EventEmitter<{}> = new EventEmitter<{}>();
 
   currentRepository: Repository;
-  histroyList = [];
   selectedCommit;
 
-  constructor(
-    private repositoryService: RepositoryService,
-    private gitService: GitService
-  ) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.repositoryService.currentRepository.subscribe(value => {
-      this.currentRepository = value;
-      this.loadCommits();
-    })
+  ngOnChanges() {
+    if (this.historyList && this.historyList.length > 0) {
+      this.selectCommit(this.historyList[0], false);
+    }
   }
 
-  loadCommits() {
-    this.gitService.getCommitHistory(this.currentRepository).then(histroyList => {
-      this.histroyList = histroyList;
-      if (histroyList.length > 0) {
-        this.selectCommit(histroyList[0]);
-      }
-    })
-  }
-
-  selectCommit(commit) {
+  selectCommit(commit, manual) {
     this.selectedCommit = commit;
-    this.commitSelected.emit(commit);
+    this.commitSelected.emit({ commit, manual });
   }
 }

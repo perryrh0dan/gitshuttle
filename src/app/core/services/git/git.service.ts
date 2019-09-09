@@ -2,6 +2,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { Repository } from "../../models";
 
 var git = require('../../libs/git');
+const sg = require('simple-git/promise');
 
 export class GitService {
   constructor(
@@ -33,5 +34,13 @@ export class GitService {
 
   public getUnsyncFileDiff(opts) {
     return git.getUnsyncFileDiff(opts)
+  }
+
+  public add(path, files) {
+    return sg(path).add(files)
+  }
+
+  public commit(path, message) {
+    return sg(path).commit(message);
   }
 }

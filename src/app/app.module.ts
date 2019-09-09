@@ -24,7 +24,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './home/main.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';

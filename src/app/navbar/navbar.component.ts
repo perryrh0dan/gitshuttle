@@ -42,8 +42,6 @@ export class NavbarComponent implements OnInit {
 
   toggleLeftSidenav() {
     this.sidebarService.toggle();
-
-    console.log('Clicked');
   }
 
   showSettings() {

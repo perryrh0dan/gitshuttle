@@ -19,9 +19,9 @@
 <div class="commits">
   <ul>
     <li>
-      <span>{{ histroyList.length }} commits</span>
+      <span>{{ historyList?.length }} commits</span>
     </li>
-    <li *ngFor="let commit of histroyList" (click)="selectCommit(commit)">
+    <li *ngFor="let commit of historyList" (click)="selectCommit(commit, true)">
       <div class="thumb">
         {{ commit.user.trim()[0] }}
       </div>

@@ -7,7 +7,7 @@
       placeholder="Give a description to the commit. Tell more about your changes..."></textarea>
   </div>
   <button type="button" *ngIf="status == 'open'" class="btn btn-primary"
-    (click)="commitSelectedChanges(commitMessage, commitDescription, $event)">
+    (click)="commitSelectedChanges()">
     Commit
   </button>
 </form>

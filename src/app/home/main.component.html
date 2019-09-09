@@ -1,0 +1,50 @@
+<div class="home">
+  <div class="repoMissing" *ngIf="!currentRepository">
+    <span>Select a repository to start</span>
+  </div>
+  <div class="content" [hidden]="!currentRepository">
+    <div class="content-left">
+      <app-create-commit (onCommit)="commitSelectedChanges($event)" [status]="createCommitStatus"></app-create-commit>
+      <app-commits class="commits" [historyList]="historyList" (commitSelected)="selectCommit($event)"></app-commits>
+    </div>
+    <div class="content-right">
+      <div class="main">
+        <tabset #tabs [justified]="true">
+          <tab heading="History" (selectTab)="onSelect($event)">
+            <header class="commit-message">
+              <h2>{{ selectedCommit?.message }}</h2>
+            </header>
+          </tab>
+          <tab heading="Changes" (selectTab)="onSelect($event)">
+            <header class="commit-message" *ngIf="commitChanges.length > 0">
+              <h2 style="margin-bottom: 20px">Unsyncronized Changes</h2>
+
+              <h4 style="cursor: pointer" (click)="collapseAll()">
+                <span class="octicon octicon-fold"></span>Collapse all</h4>
+              <h4 style="cursor: pointer" (click)="expandAll()">
+                <span class="octicon octicon-unfold"></span>Expand all</h4>
+              <h4 style="cursor: pointer; float: right" (click)="discartAllSelected()">
+                <span class="octicon octicon-trashcan"></span>Discart all selected</h4>
+            </header>
+            <ul>
+              <li *ngFor="let change of commitChanges">
+                <header [ngClass]="{'read-only' : (change.type == 'ADDED' || change.staged)}">
+                  <span class="item" *ngIf="change.type != 'DELETED'" (click)="showFileDiff(change)">
+                    <fa-icon [icon]="faCaretRight" size="lg"></fa-icon>
+                  </span>
+                  <input class="item" id="change{{$index}}" type="checkbox" class="form-input"
+                    [(ngModel)]="change.checked" checked="true" />
+                  <label *ngIf="change.type == 'ADDED'" for="change{{$index}}"></label>
+                  <span
+                    title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}
+                  </span>
+                </header>
+                <code *ngIf="change.showCode" [innerHTML]="change.code | sanitize"></code>
+              </li>
+            </ul>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

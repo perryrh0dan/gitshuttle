@@ -1,52 +1,113 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, ViewChild, Output, EventEmitter } from '@angular/core';
-import { GitService, RepositoryService } from '../../core/services';
-
-import { TabsetComponent, TabDirective } from 'ngx-bootstrap'
+import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { RepositoryService, GitService, ElectronService } from '../core/services';
+import { Repository } from '../core/models';
+import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
-var cp = require('../../core/libs/code-processor.js');
+// libs
+const cp = require('../core/libs/code-processor.js');
+
 
 @Component({
-  selector: 'app-main',
+  selector: 'app-home',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit, OnChanges {
-  @Input() selectedCommit: any;
-  @Output() selectedTab: EventEmitter<TabDirective> = new EventEmitter<TabDirective>();
+export class MainComponent implements OnInit {
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
 
   faCaretRight = faCaretRight;
 
-  currentRepository;
+  currentRepository: Repository;
+  historyList: [];
+  selectedCommit;
+  selectedTab: TabDirective;
+  createCommitStatus: String;
   commitChanges = new Array<any>();
   commitHistory = new Array<any>();
 
   constructor(
-    private gitService: GitService,
-    private repositoryService: RepositoryService
+    private electronService: ElectronService,
+    private zone: NgZone,
+    private repositoryService: RepositoryService,
+    private gitService: GitService
   ) { }
 
   ngOnInit() {
     this.repositoryService.currentRepository.subscribe(value => {
       this.currentRepository = value;
-      this.refreshRepositoryChanges(value);
+      if (value) {
+        this.refreshRepositoryChanges(value);
+        this.loadCommits(value);
+      }
+    });
+
+    /* Update the changed files ever time the application is focused */
+    this.electronService.remote.getCurrentWindow().on('focus', function () {
+      if (this.currentRepository) {
+        this.zone.run(() => {
+          // set the correct directoryPath. 
+          this.refreshRepositoryChanges(this.currentRepository);
+          this.loadCommits(this.currentRepository);
+        });
+      }
+    }.bind(this));
+  }
+
+  loadCommits(repository) {
+    this.gitService.getCommitHistory(repository.path).then(historyList => {
+      this.historyList = historyList;
     })
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // this.tabs.tabs[0].active = true;
-    // if (changes.selectedCommit && changes.selectedCommit.currentValue) {
-    //   this.showCommitChanges(changes.selectedCommit.currentValue)
-    // }
+  selectCommit(commit) {
+    this.selectedCommit = commit;
+    if (commit.manual) {
+      this.tabs.tabs[0].active = true;
+    }
+  }
+
+  commitSelectedChanges(commitMessage) {
+    if (commitMessage) {
+      let selectedFiles = [];
+
+      this.commitChanges.forEach(function (file) {
+        if (file.checked) {
+          selectedFiles.push(file.path);
+        }
+      });
+
+      if (selectedFiles.length > 0) {
+        this.gitService.add(this.currentRepository.path, selectedFiles).then(() => {
+          this.gitService.commit(this.currentRepository.path, commitMessage).then(() => {
+            this.refreshRepositoryChanges(this.currentRepository);
+            this.loadCommits(this.currentRepository);
+          })
+        })
+      }
+    }
+  }
+
+  selectTab(tab: TabDirective) {
+    this.selectedTab = tab;
+    if (tab.heading === 'Changes') {
+      this.createCommitStatus = 'open'
+    } else {
+      this.createCommitStatus = 'close'
+    }
   }
 
   changeTab(index) {
     this.tabs.tabs[index].active = true;
   }
 
-  onSelect(data: TabDirective): void {
-    this.selectedTab.emit(data);
+  onSelect(tab: TabDirective): void {
+    this.selectedTab = tab;
+    if (tab.heading === 'Changes') {
+      this.createCommitStatus = 'open'
+    } else {
+      this.createCommitStatus = 'close'
+    }
   }
 
   refreshRepositoryChanges(repository) {

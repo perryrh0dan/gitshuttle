@@ -3,7 +3,6 @@ import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import { SidebarService } from './core/services/sidebar/sidebar.service'
-import { SettingsService } from './core/services'
 import { MatSidenav } from '@angular/material';
 
 @Component({
@@ -13,15 +12,13 @@ import { MatSidenav } from '@angular/material';
 })
 export class AppComponent implements OnInit {
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
-  @ViewChild('settings', { static: true }) public settings: MatSidenav;
 
   constructor(
     public electronService: ElectronService,
     public sidebarService: SidebarService,
-    public settingsService: SettingsService,
     private translate: TranslateService
   ) {
-    translate.setDefaultLang('en');
+    this.translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
     if (electronService.isElectron) {
