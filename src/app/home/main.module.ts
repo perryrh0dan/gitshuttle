@@ -14,9 +14,10 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { CommitsComponent } from './commits/commits.component';
 import { CreateCommitComponent } from './create-commit/create-commit.component';
+import { CommitComponent } from './commit/commit.component';
 
 @NgModule({
-  declarations: [MainComponent, CommitsComponent, CreateCommitComponent],
+  declarations: [MainComponent, CommitsComponent, CreateCommitComponent, CommitComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -1,0 +1,57 @@
+.commit-message {
+  padding: 15px;
+  border-bottom: #DDD 1px solid;
+  word-break: break-word;
+  overflow: hidden;
+
+  .h {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  h2 {
+    @extend .h;
+  }
+
+  h4 {
+    @extend .h;
+    color: #1B577E;
+    display: inline-block;
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 1em;
+  }
+
+  .commit-body {
+    white-space: pre-line;
+    line-height: 1.5;
+    margin: 0;
+    color: #666;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+  }
+}
+
+ul {
+  list-style: none;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  li {
+    border-bottom: #DDD 1px solid;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+    word-wrap: break-word;
+
+    header {
+      padding: 10px 25px;
+
+      .item {
+        margin-right: 10px;
+      }
+    }
+  }
+}

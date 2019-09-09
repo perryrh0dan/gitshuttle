@@ -1,6 +1,6 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Repository, RepoType } from '../../models';
+import { Repository } from '../../models';
 import { GitService } from '../git/git.service';
 import { RepositoryService } from '../repository/repository.service';
 

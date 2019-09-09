@@ -1,0 +1,61 @@
+<div class="commit">
+  <div class="actual" *ngIf="type == 'actual'">
+    <header class="commit-message" *ngIf="changes.length > 0">
+      <h2>Unsyncronized Changes</h2>
+      <h4 style="cursor: pointer" (click)="collapseAll()">
+        <span class="octicon octicon-fold"></span>Collapse all</h4>
+      <h4 style="cursor: pointer" (click)="expandAll()">
+        <span class="octicon octicon-unfold"></span>Expand all</h4>
+      <h4 style="cursor: pointer; float: right" (click)="discartAllSelected()">
+        <span class="octicon octicon-trashcan"></span>Discart all selected</h4>
+    </header>
+    <ul>
+      <li *ngFor="let change of changes">
+        <header [ngClass]="{'read-only' : (change.type == 'ADDED' || change.staged)}">
+          <span class="item" *ngIf="change.type != 'DELETED'" (click)="showFileDiff(change)">
+            <fa-icon [icon]="faCaretRight" size="lg"></fa-icon>
+          </span>
+          <input class="item" id="change{{$index}}" type="checkbox" class="form-input" [(ngModel)]="change.checked"
+            checked="true" />
+          <label *ngIf="change.type == 'ADDED'" for="change{{$index}}"></label>
+          <span
+            title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}
+          </span>
+        </header>
+        <code *ngIf="change.showCode" [innerHTML]="change.code | sanitize"></code>
+      </li>
+    </ul>
+  </div>
+  <div class="history" *ngIf="type == 'history'">
+    <header class="commit-message" *ngIf="selectedCommit.message">
+      <h2 [innerHTML]="selectedCommit.message | sanitize"></h2>
+      <p class="commit-body" *ngIf="selectedCommit.body"
+        [innerHTML]="selectedCommit.body | sanitize"></p>
+
+      <h4 *ngIf="selectedCommit?.user">
+        <span class="octicon octicon-person"></span> {{ selectedCommit?.user }}
+      </h4>
+      <h4 *ngIf="selectedCommit?.hash">
+        <span class="octicon octicon-git-commit"></span> {{ selectedCommit?.hash }}
+      </h4>
+      <h4 style="float: right; cursor: pointer" (click)="expandAll()">
+        <span class="octicon octicon-unfold"></span>Expand all
+      </h4>
+      <h4 style="float: right; cursor: pointer" (click)="collapseAll()">
+        <span class="octicon octicon-fold"></span>Collapse all
+      </h4>
+    </header>
+    <ul>
+      <li *ngFor="let history of changes" ng-right-click="appCtrl.openHistoryContextualMenu($event, history, $index)">
+        <header>
+          <span ng-click="appCtrl.showFileDiff(history)" [hidden]="history.isBinary"
+            ng-class="{ 'octicon-triangle-right': !history.showCode, 'octicon-triangle-down': history.showCode}"
+            class="octicon octicon-triangle-right"></span>
+          <span
+            title="{{ history.name.length > 50 ? history.name : '' }}">{{ history.name.length > 50 ? '...' : ''}}{{ history.name }}</span>
+        </header>
+        <code *ngIf="history.showCode" [innerHTML]="history.code | sanitize"></code>
+      </li>
+    </ul>
+  </div>
+</div>

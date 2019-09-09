@@ -16,8 +16,6 @@ const cp = require('../core/libs/code-processor.js');
 export class MainComponent implements OnInit {
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
 
-  faCaretRight = faCaretRight;
-
   currentRepository: Repository;
   historyList: [];
   selectedCommit;
@@ -55,7 +53,7 @@ export class MainComponent implements OnInit {
   }
 
   loadCommits(repository) {
-    this.gitService.getCommitHistory(repository.path).then(historyList => {
+    this.gitService.getCommitHistory({ path: repository.path }).then(historyList => {
       this.historyList = historyList;
     })
   }
@@ -65,6 +63,7 @@ export class MainComponent implements OnInit {
     if (commit.manual) {
       this.tabs.tabs[0].active = true;
     }
+    this.showCommitChanges(commit.commit);
   }
 
   commitSelectedChanges(commitMessage) {

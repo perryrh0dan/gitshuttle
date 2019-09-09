@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
+  "name": "gitview",
   "version": "6.1.0",
-  "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "description": "Git Client in Angular 8 with Electron (Typescript + SASS + Hot Reload)",
+  "homepage": "https://github.com/perryrh0dan/gitview",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Thomas Pöhlmann",
+    "email": "thomaspoehlmann96@googlemail.com"
   },
   "keywords": [
     "angular",
