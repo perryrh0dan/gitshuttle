@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { faPlus, faCog, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCog, faToggleOn, faToggleOff, faSync } from '@fortawesome/free-solid-svg-icons';
 
 import { SidebarService } from '../core/services/sidebar/sidebar.service';
 import { GitService } from '../core/services';
@@ -19,6 +19,7 @@ export class NavbarComponent implements OnInit {
   faCog = faCog;
   faToggleOn = faToggleOn;
   faToggleOff = faToggleOff;
+  faSync      = faSync;
   sidebarIsOpen: Boolean;
   currentBranch: String;
 

@@ -4,10 +4,6 @@ import { Repository } from '../core/models';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
-// libs
-const cp = require('../core/libs/code-processor.js');
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './main.component.html',
@@ -146,45 +142,6 @@ export class MainComponent implements OnInit {
 
       this.commitChanges = newChangesList;
     })
-  }
-
-  showFileDiff(change, forceReload) {
-    if (!change.code || forceReload) {
-
-      if (!change.isUnsyc) {
-        this.gitService.getFileDiff({
-          file: change.name,
-          hash: this.selectedCommit.hash,
-          path: this.currentRepository.path
-
-        }).then(stdout => {
-
-          change.code = cp.processCode(stdout, change.path);
-
-          if (change.showCode) {
-            change.showCode = false;
-          } else {
-            change.showCode = true;
-          }
-        });
-      } else if (change.type != 'DELETED') {
-
-        this.gitService.getUnsyncFileDiff({
-          path: this.currentRepository.path,
-          file: change.path
-        }).then(diff => {
-
-          change.code = cp.processCode(diff, change.path);
-
-          if (!forceReload) {
-            change.showCode = !change.showCode;
-          }
-        });
-      }
-
-    } else {
-      change.showCode = !change.showCode;
-    }
   }
 
   showCommitChanges(commit) {
