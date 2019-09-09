@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange, ViewC
 import { GitService, RepositoryService } from '../../core/services';
 
 import { TabsetComponent, TabDirective } from 'ngx-bootstrap'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 var cp = require('../../core/libs/code-processor.js');
 
@@ -14,6 +15,8 @@ export class MainComponent implements OnInit, OnChanges {
   @Input() selectedCommit: any;
   @Output() selectedTab: EventEmitter<TabDirective> = new EventEmitter<TabDirective>();
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
+
+  faCaretRight = faCaretRight;
 
   currentRepository;
   commitChanges = new Array<any>();
@@ -32,10 +35,14 @@ export class MainComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.tabs.tabs[0].active = true;
-    if (changes.selectedCommit && changes.selectedCommit.currentValue) {
-      this.showCommitChanges(changes.selectedCommit.currentValue)
-    }
+    // this.tabs.tabs[0].active = true;
+    // if (changes.selectedCommit && changes.selectedCommit.currentValue) {
+    //   this.showCommitChanges(changes.selectedCommit.currentValue)
+    // }
+  }
+
+  changeTab(index) {
+    this.tabs.tabs[index].active = true;
   }
 
   onSelect(data: TabDirective): void {

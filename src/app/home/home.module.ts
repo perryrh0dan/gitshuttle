@@ -6,6 +6,10 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { SharedModule } from '../shared/shared.module';
 
+
+// Font Awesome
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 // Ngx Bootstrap
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
@@ -19,6 +23,7 @@ import { CreateCommitComponent } from './create-commit/create-commit.component';
     CommonModule,
     SharedModule,
     HomeRoutingModule,
+    FontAwesomeModule,
     TabsModule.forRoot()
   ]
 })

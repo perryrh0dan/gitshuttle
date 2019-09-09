@@ -19,11 +19,15 @@
       <ul>
         <li *ngFor="let change of commitChanges">
           <header [ngClass]="{'read-only' : (change.type == 'ADDED' || change.staged)}">
-            <span *ngIf="change.type != 'DELETED'" (click)="showFileDiff(change)">Code</span>
-            <input id="change{{$index}}" type="checkbox" class="form-check-input" [(ngModel)]="change.checked" checked="true" />
+            <span class="item" *ngIf="change.type != 'DELETED'" (click)="showFileDiff(change)">
+              <fa-icon [icon]="faCaretRight" size="lg"></fa-icon>
+            </span>
+            <input class="item" id="change{{$index}}" type="checkbox" class="form-input" [(ngModel)]="change.checked"
+              checked="true" />
             <label *ngIf="change.type == 'ADDED'" for="change{{$index}}"></label>
             <span
-              title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}</span>
+              title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}
+            </span>
           </header>
           <code *ngIf="change.showCode" [innerHTML]="change.code | sanitize"></code>
         </li>

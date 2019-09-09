@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { RepositoryService } from '../core/services';
 import { Repository } from '../core/models';
 import { TabDirective } from 'ngx-bootstrap';
+import { MainComponent } from './main/main.component';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ export class HomeComponent implements OnInit {
   currentRepository: Repository;
   selectedCommit;
   selectedTab: TabDirective;
+  createCommitStatus: String;
 
   constructor(
     private repositoryService: RepositoryService
@@ -20,14 +22,19 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.repositoryService.currentRepository.subscribe(value => {
       this.currentRepository = value;
-    })
+    });
   }
 
-  getCreateCommitStatus() {
-    if (this.selectedTab && this.selectedTab.heading === 'Changes') {
-      return 'open'
+  selectCommit(commit) {
+    this.selectedCommit = commit;
+  }
+
+  selectTab(tab: TabDirective) {
+    this.selectedTab = tab;
+    if (tab.heading === 'Changes') {
+      this.createCommitStatus = 'open'
     } else {
-      return 'close'
+      this.createCommitStatus = 'close'
     }
   }
 }
