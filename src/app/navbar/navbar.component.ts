@@ -56,4 +56,8 @@ export class NavbarComponent implements OnInit {
     // dialogConfig.height = '50px'
     this.dialog.open(AddRepositoryComponent, dialogConfig)
   }
+
+  sync() {
+    
+  }
 }

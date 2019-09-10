@@ -117,9 +117,9 @@ export class MainComponent implements OnInit {
 
           if (status.files[i].path == this.commitChanges[i].path || deorderedFiles[this.commitChanges[i].path]) {
 
-            if (this.commitChanges[i].code) {
-              this.showFileDiff(this.commitChanges[i], true);
-            }
+            // if (this.commitChanges[i].code) {
+            //   this.showFileDiff(this.commitChanges[i], true);
+            // }
 
             this.commitChanges[i].staged = status.files[i].staged;
             this.commitChanges[i].type = status.files[i].type;
