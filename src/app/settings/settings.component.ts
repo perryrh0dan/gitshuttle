@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { SettingsService, GitService } from '../core/services';
+import { GitService } from '../core/services';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { close } from '../actions/settings.actions';
 
 @Component({
   selector: 'app-settings',
@@ -32,22 +36,23 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class SettingsComponent implements OnInit {
   faArrowLeft = faArrowLeft;
   isShown: Boolean;
-  isOpen: Boolean;
+  isOpen$: Observable<Boolean>;
   currentState: String;
 
   globalGitConfig: {};
   localGitConfig: {};
 
   constructor(
-    private settingsService: SettingsService,
+    private store: Store<{ sidebar: Boolean }>,
     private gitService: GitService
-  ) { }
+  ) {
+    this.isOpen$ = this.store.pipe(select('settings'));
+  }
 
   ngOnInit() {
-    this.settingsService.isOpen.subscribe(value => {
-      this.isOpen = value;
+    this.isOpen$.subscribe(value => {
       this.currentState = value ? 'open' : 'close';
-      if (this.isOpen) {
+      if (value) {
         this.isShown = true;
       } else {
         setTimeout(function () {
@@ -67,10 +72,10 @@ export class SettingsComponent implements OnInit {
   }
 
   changeAppLanguage() {
-    
+
   }
 
   close() {
-    this.settingsService.close();
+    this.store.dispatch(close());
   }
 }

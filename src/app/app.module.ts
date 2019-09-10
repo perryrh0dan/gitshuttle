@@ -4,10 +4,20 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
+// Routing
 import { AppRoutingModule } from './app-routing.module';
+
+// Store
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { loadingReducer } from './reducers/loading.reducer';
+import { sidebarReducer } from './reducers/sidebar.reducer';
+import { settingsReducer } from './reducers/settings.reducer';
+
 // Angular Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from './core/material/material.module'
@@ -18,7 +28,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Ngx Bootstrap
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -59,7 +68,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     TooltipModule.forRoot(),
     CoreModule,
     SharedModule,
-    MainModule
+    MainModule,
+    StoreModule.forRoot({
+      loading: loadingReducer,
+      sidebar: sidebarReducer,
+      settings: settingsReducer
+    }),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   providers: [],
   bootstrap: [AppComponent],

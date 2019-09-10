@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { faPlus, faCog, faToggleOn, faToggleOff, faSync, faCodeBranch, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-import { SidebarService } from '../core/services/sidebar/sidebar.service';
-import { GitService } from '../core/services';
-import { SettingsService } from '../core/services';
-
 import { AddRepositoryComponent } from '../shared/components';
 import { BranchService } from '../core/services/branch/branch.service';
-import { AppService } from '../core/services/app/app.service';
+
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { open } from '../actions/settings.actions';
+import { toggle } from '../actions/sidebar.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -24,36 +24,31 @@ export class NavbarComponent implements OnInit {
   faCodeBranch = faCodeBranch;
   faChevronUp = faChevronUp;
 
-  isLoading: Boolean;
-  sidebarIsOpen: Boolean;
+  isLoading$: Observable<Boolean>;
+  sidebarIsOpen$: Observable<Boolean>;
   currentBranch: String;
 
   constructor(
-    private appService: AppService,
-    private sidebarService: SidebarService,
-    private settingsService: SettingsService,
     private branchService: BranchService,
     private dialog: MatDialog,
-  ) { }
+    private store: Store<{ loading: Boolean }>
+  ) { 
+    this.isLoading$ = this.store.pipe(select('loading'));
+    this.sidebarIsOpen$ = this.store.pipe(select('sidebar'));
+  }
 
   ngOnInit() {
-    this.appService.isLoading.subscribe(value => {
-      this.isLoading = value;
-    })
-    this.sidebarService.isOpen.subscribe(value => {
-      this.sidebarIsOpen = value;
-    })
     this.branchService.currentBranch.subscribe(value => {
       this.currentBranch = value;
     })
   }
 
-  toggleLeftSidenav() {
-    this.sidebarService.toggle();
+  toggleSidebar() {
+    this.store.dispatch(toggle());
   }
 
   showSettings() {
-    this.settingsService.open();
+    this.store.dispatch(open());
   }
 
   addRepository() {

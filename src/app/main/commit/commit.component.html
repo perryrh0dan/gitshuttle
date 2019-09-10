@@ -48,7 +48,7 @@
     <ul>
       <li *ngFor="let history of changes" ng-right-click="appCtrl.openHistoryContextualMenu($event, history, $index)">
         <header>
-          <span ng-click="appCtrl.showFileDiff(history)" [hidden]="history.isBinary"
+          <span ng-click="appCtrl.showFileDiff(history)" *ngIf="!history.isBinary"
             ng-class="{ 'octicon-triangle-right': !history.showCode, 'octicon-triangle-down': history.showCode}"
             class="octicon octicon-triangle-right"></span>
           <span

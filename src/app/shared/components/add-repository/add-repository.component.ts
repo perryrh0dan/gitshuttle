@@ -1,8 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { GitService, RepositoryService, AppService } from '../../../core/services';
+import { GitService, RepositoryService } from '../../../core/services';
 const dialog = require('electron').remote.dialog;
-const browserWindow = require('electron').remote.BrowserWindow
+const browserWindow = require('electron').remote.BrowserWindow;
+
+import { Store, select } from '@ngrx/store';
+import { start, stop } from '../../../actions/loading.actions';
 
 @Component({
   selector: 'app-add-repository',
@@ -13,9 +16,9 @@ export class AddRepositoryComponent implements OnInit {
   repositoryPath;
 
   constructor(
+    private store: Store<{}>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AddRepositoryComponent>,
-    private appService: AppService,
     private repositoryService: RepositoryService
   ) { }
 
@@ -37,10 +40,10 @@ export class AddRepositoryComponent implements OnInit {
   }
 
   addRepository() {
-    this.appService.setLoading(true);
+    this.store.dispatch(start())
     this.repositoryService.addRepository(this.repositoryPath).then(() => {
       this.dialogRef.close()
-      this.appService.setLoading(false);
+      this.store.dispatch(stop());
     });
   }
 }

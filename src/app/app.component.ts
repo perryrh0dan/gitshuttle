@@ -1,25 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
-import { AppConfig } from '../environments/environment';
-import { SidebarService } from './core/services/sidebar/sidebar.service'
+import { environment } from '../environments/environment';
 import { MatSidenav } from '@angular/material';
+
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   @ViewChild('sidebar', { static: true }) public sidebar: MatSidenav;
+
+  sidebarIsOpen$: Observable<Boolean>;
+  sidebarIsOpen: Boolean;
 
   constructor(
     public electronService: ElectronService,
-    public sidebarService: SidebarService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private store: Store<{ sidebar: Boolean }>
   ) {
     this.translate.setDefaultLang('en');
-    console.log('AppConfig', AppConfig);
+    console.log('environment', environment);
 
     if (electronService.isElectron) {
       console.log(process.env);
@@ -29,9 +34,12 @@ export class AppComponent implements OnInit {
     } else {
       console.log('Mode web');
     }
-  }
 
-  ngOnInit(): void {
-    this.sidebarService.setSidebar(this.sidebar);
+    this.sidebarIsOpen$ = this.store.pipe(select('sidebar'))
+    this.sidebarIsOpen$.subscribe(value => {
+      if (this.sidebar) {
+        this.sidebar.toggle();
+      }
+    });
   }
 }

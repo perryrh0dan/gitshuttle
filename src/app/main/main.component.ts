@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
-import { RepositoryService, GitService, ElectronService, AppService } from '../core/services';
+import { RepositoryService, GitService, ElectronService } from '../core/services';
 import { Repository } from '../core/models';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
+
+import { Store, select } from '@ngrx/store';
+import { start, stop } from '../actions/loading.actions';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +24,7 @@ export class MainComponent implements OnInit {
   commitHistory = new Array<any>();
 
   constructor(
-    private appService: AppService,
+    private store: Store<{}>,
     private electronService: ElectronService,
     private zone: NgZone,
     private repositoryService: RepositoryService,
@@ -48,12 +51,12 @@ export class MainComponent implements OnInit {
   }
 
   refresh() {
-    this.appService.setLoading(true);
+    this.store.dispatch(start());
     let promises = [];
     promises.push(this.refreshRepositoryChanges());
     promises.push(this.loadCommits());
     Promise.all(promises).finally(() => {
-      this.appService.setLoading(false);
+      this.store.dispatch(stop());
     })
   }
 

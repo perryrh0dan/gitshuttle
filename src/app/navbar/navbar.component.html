@@ -4,8 +4,8 @@
       <fa-icon class="icon" [icon]="faPlus" tooltip="Add, Clone or Create a repository" (click)="addRepository()"></fa-icon>
     </span>
     <span class="item">
-      <fa-icon class="icon" *ngIf="sidebarIsOpen" [icon]="faToggleOn" (click)="toggleLeftSidenav()" tooltip="Toggle sidebar"></fa-icon>
-      <fa-icon class="icon" *ngIf="!sidebarIsOpen" [icon]="faToggleOff" (click)="toggleLeftSidenav()" tooltip="Toggle sidebar"></fa-icon>
+      <fa-icon class="icon" *ngIf="!(sidebarIsOpen$ | async)" [icon]="faToggleOn" (click)="toggleSidebar()" tooltip="Toggle sidebar"></fa-icon>
+      <fa-icon class="icon" *ngIf="sidebarIsOpen$ | async" [icon]="faToggleOff" (click)="toggleSidebar()" tooltip="Toggle sidebar"></fa-icon>
     </span>
     <span class="item" *ngIf="currentBranch">
       <fa-icon class="icon" [icon]="faCodeBranch"></fa-icon>
@@ -18,7 +18,7 @@
     </span>
   </div>
   <div class="right">
-    <span class="item" *ngIf="isLoading">
+    <span class="item" *ngIf="isLoading$ | async ">
       <div class="spinner"></div>
     </span>
     <span class="item">
