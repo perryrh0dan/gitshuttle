@@ -3,7 +3,7 @@ import {SpectronClient} from 'spectron';
 
 import commonSetup from './common-setup';
 
-describe('gitview app', function () {
+describe('gitshuttle app', function () {
   commonSetup.apply(this);
 
   let browser: any;

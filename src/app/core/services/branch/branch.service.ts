@@ -1,11 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Repository } from '../../models';
 import { GitService } from '../git/git.service';
 import { RepositoryService } from '../repository/repository.service';
 
 @Injectable()
-export class BranchService implements OnInit {
+export class BranchService {
   private currentBranchSubject: BehaviorSubject<String>;
   public currentBranch: Observable<String>;
   private remoteBranchesSubject: BehaviorSubject<Array<String>>;
@@ -23,14 +23,11 @@ export class BranchService implements OnInit {
     this.remotebranches = this.remoteBranchesSubject.asObservable()
     this.localBranchesSubject = new BehaviorSubject<Array<String>>([]);
     this.localBranches = this.localBranchesSubject.asObservable()
-  }
-
-  ngOnInit() {
     this.repositoryService.currentRepository.subscribe(repository => {
       if (repository) {
         this.loadBranches(repository);
       }
-    })
+    });
   }
 
   loadBranches(repository: Repository) {

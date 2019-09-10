@@ -1,8 +1,8 @@
 {
-  "name": "gitview",
+  "name": "gitshuttle",
   "version": "0.1.0",
   "description": "Git Client in Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/perryrh0dan/gitview",
+  "homepage": "https://github.com/perryrh0dan/gitshuttle",
   "author": {
     "name": "Thomas Pöhlmann",
     "email": "thomaspoehlmann96@googlemail.com"

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gitview": {
+    "gitshuttle": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -72,21 +72,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "gitview:build"
+            "browserTarget": "gitshuttle:build"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "gitview:build:dev"
+              "browserTarget": "gitshuttle:build:dev"
             },
             "production": {
-              "browserTarget": "gitview:build:production"
+              "browserTarget": "gitshuttle:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "gitview:build"
+            "browserTarget": "gitshuttle:build"
           }
         },
         "test": {
@@ -124,7 +124,7 @@
         }
       }
     },
-    "gitview-e2e": {
+    "gitshuttle-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -142,7 +142,7 @@
       }
     }
   },
-  "defaultProject": "gitview",
+  "defaultProject": "gitshuttle",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
