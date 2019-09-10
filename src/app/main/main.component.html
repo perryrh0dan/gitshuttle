@@ -1,4 +1,4 @@
-<div class="home">
+<div class="main">
   <div class="repoMissing" *ngIf="!currentRepository">
     <span>Select a repository to start</span>
   </div>
@@ -10,7 +10,7 @@
     <div class="content-right">
       <div class="main">
         <tabset #tabs [justified]="true">
-          <tab heading="History" (selectTab)="onSelect($event)">
+          <tab heading="History" (selectTab)="onSelect($event)" customClass="customTab">
               <app-commit *ngIf="selectedCommit" [type]="'history'" [changes]="commitHistory" [selectedCommit]="selectedCommit.commit"></app-commit>
           </tab>
           <tab heading="Changes" (selectTab)="onSelect($event)">

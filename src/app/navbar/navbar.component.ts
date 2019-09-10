@@ -8,6 +8,7 @@ import { SettingsService } from '../core/services';
 
 import { AddRepositoryComponent } from '../shared/components';
 import { BranchService } from '../core/services/branch/branch.service';
+import { AppService } from '../core/services/app/app.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,20 +20,24 @@ export class NavbarComponent implements OnInit {
   faCog = faCog;
   faToggleOn = faToggleOn;
   faToggleOff = faToggleOff;
-  faSync      = faSync;
+  faSync = faSync;
+  
+  isLoading: Boolean;
   sidebarIsOpen: Boolean;
   currentBranch: String;
 
   constructor(
+    private appService: AppService,
     private sidebarService: SidebarService,
     private settingsService: SettingsService,
     private branchService: BranchService,
     private dialog: MatDialog,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
+    this.appService.isLoading.subscribe(value => {
+      this.isLoading = value;
+    })
     this.sidebarService.isOpen.subscribe(value => {
       this.sidebarIsOpen = value;
     })
@@ -58,6 +63,6 @@ export class NavbarComponent implements OnInit {
   }
 
   sync() {
-    
+
   }
 }

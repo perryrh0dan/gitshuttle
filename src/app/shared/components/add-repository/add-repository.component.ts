@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { GitService, RepositoryService } from '../../../core/services';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { GitService, RepositoryService, AppService } from '../../../core/services';
 const dialog = require('electron').remote.dialog;
 const browserWindow = require('electron').remote.BrowserWindow
 
@@ -13,7 +13,9 @@ export class AddRepositoryComponent implements OnInit {
   repositoryPath;
 
   constructor(
-    private gitService: GitService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<AddRepositoryComponent>,
+    private appService: AppService,
     private repositoryService: RepositoryService
   ) { }
 
@@ -35,8 +37,10 @@ export class AddRepositoryComponent implements OnInit {
   }
 
   addRepository() {
-    this.repositoryService.addRepository(this.repositoryPath).then(repository => {
-      
+    this.appService.setLoading(true);
+    this.repositoryService.addRepository(this.repositoryPath).then(() => {
+      this.dialogRef.close()
+      this.appService.setLoading(false);
     });
   }
 }

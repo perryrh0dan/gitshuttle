@@ -24,7 +24,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { HomeModule } from './home/main.module';
+import { MainModule } from './main/main.module'
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -59,7 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TooltipModule.forRoot(),
     CoreModule,
     SharedModule,
-    HomeModule
+    MainModule
   ],
   providers: [],
   bootstrap: [AppComponent],

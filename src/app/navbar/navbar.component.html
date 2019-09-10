@@ -13,6 +13,9 @@
   </div>
   <div class="center"></div>
   <div class="right">
+    <span class="item" *ngIf="isLoading">
+      <div class="spinner"></div>
+    </span>
     <span class="item">
       <fa-icon class="icon" [icon]="faSync" tooltip="Sync" (click)="sync()"></fa-icon>
     </span>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { BranchService } from '../../core/services';
 const wos = require('node-wos');
 
 @Component({
@@ -25,12 +26,13 @@ export class CreateCommitComponent implements OnInit {
   commitMessage: String;
   commitDescription: String;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() {
   }
 
-  commitSelectedChanges() {
+  commit() {
     let message = ''.concat((this.commitMessage.replace(/"/g, '\\"')));
     if (this.commitDescription) {
       if (wos.isWindows()) {

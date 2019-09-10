@@ -26,6 +26,6 @@ import { CommitComponent } from './commit/commit.component';
     TabsModule.forRoot()
   ]
 })
-export class HomeModule {
+export class MainModule {
   constructor() { }
 }

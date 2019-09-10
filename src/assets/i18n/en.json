@@ -1,4 +1,7 @@
 {
+  "SETTINGS": {
+    "TITLE": "Settings"
+  },
   "PAGES": {
       "HOME": {
           "TITLE": "App works !"

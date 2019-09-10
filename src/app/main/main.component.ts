@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { RepositoryService, GitService, ElectronService } from '../core/services';
+import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
+import { RepositoryService, GitService, ElectronService, AppService } from '../core/services';
 import { Repository } from '../core/models';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MainComponent implements OnInit {
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
@@ -21,6 +21,7 @@ export class MainComponent implements OnInit {
   commitHistory = new Array<any>();
 
   constructor(
+    private appService: AppService,
     private electronService: ElectronService,
     private zone: NgZone,
     private repositoryService: RepositoryService,
@@ -31,8 +32,7 @@ export class MainComponent implements OnInit {
     this.repositoryService.currentRepository.subscribe(value => {
       this.currentRepository = value;
       if (value) {
-        this.refreshRepositoryChanges(value);
-        this.loadCommits(value);
+        this.refresh();
       }
     });
 
@@ -41,16 +41,19 @@ export class MainComponent implements OnInit {
       if (this.currentRepository) {
         this.zone.run(() => {
           // set the correct directoryPath. 
-          this.refreshRepositoryChanges(this.currentRepository);
-          this.loadCommits(this.currentRepository);
+          this.refresh();
         });
       }
     }.bind(this));
   }
 
-  loadCommits(repository) {
-    this.gitService.getCommitHistory({ path: repository.path }).then(historyList => {
-      this.historyList = historyList;
+  refresh() {
+    this.appService.setLoading(true);
+    let promises = [];
+    promises.push(this.refreshRepositoryChanges());
+    promises.push(this.loadCommits());
+    Promise.all(promises).finally(() => {
+      this.appService.setLoading(false);
     })
   }
 
@@ -75,8 +78,7 @@ export class MainComponent implements OnInit {
       if (selectedFiles.length > 0) {
         this.gitService.add(this.currentRepository.path, selectedFiles).then(() => {
           this.gitService.commit(this.currentRepository.path, commitMessage).then(() => {
-            this.refreshRepositoryChanges(this.currentRepository);
-            this.loadCommits(this.currentRepository);
+            this.refresh();
           })
         })
       }
@@ -105,8 +107,14 @@ export class MainComponent implements OnInit {
     }
   }
 
-  refreshRepositoryChanges(repository) {
-    this.gitService.getStatus(repository.path).then(status => {
+  loadCommits() {
+    return this.gitService.getCommitHistory({ path: this.currentRepository.path }).then(historyList => {
+      this.historyList = historyList;
+    })
+  }
+
+  refreshRepositoryChanges() {
+    return this.gitService.getStatus(this.currentRepository.path).then(status => {
       var i = 0,
         deorderedFiles = {},
         newChangesList = [];

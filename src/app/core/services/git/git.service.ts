@@ -43,4 +43,16 @@ export class GitService {
   public commit(path, message) {
     return sg(path).commit(message);
   }
+
+  public push(path, branch) {
+    return sg(path).push(path, branch);
+  }
+
+  public getGlobalConfigs() {
+    return git.getGlobalConfigs();
+  }
+
+  public getLocalConfigs() {
+    return git.getLocalConfigs();
+  }
 }

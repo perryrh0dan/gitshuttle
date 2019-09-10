@@ -27,6 +27,7 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
+              "src/variables.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []

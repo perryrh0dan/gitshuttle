@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .commits {
   ul {
     list-style: none;
@@ -9,8 +11,8 @@
       cursor: pointer;
       word-wrap: break-word;
 
-      &:hover {
-        background-color: #DBDEE0;
+      &:not(:first-child):hover {
+        background-color: $base-hover-color; 
       }
 
       .thumb {
