@@ -1,13 +1,50 @@
-[![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
+<h1 align="center">
+  GitShuttle
+</h1>
 
-[![Travis Build Status][build-badge]][build]
-[![Dependencies Status][dependencyci-badge]][dependencyci]
-[![Make a pull request][prs-badge]][prs]
-[![License](http://img.shields.io/badge/Licence-MIT-brightgreen.svg)](LICENSE.md)
+<h4 align="center">
+  Git Client for windows, mac and linux.
+</h4>
 
-[![Watch on GitHub][github-watch-badge]][github-watch]
-[![Star on GitHub][github-star-badge]][github-star]
-[![Tweet][twitter-badge]][twitter]
+<div align="center">
+  <img alt="Main" width="70%" src="media/main.png">
+</div>
+
+# Description
+
+By utilizing a simple and minimal ui, that requires a flat learning curve, GitShuttle enables you to effectivly manage your repositories. GitShuttle is available for a windows, max and linux. 
+
+Come over to Gitter or Twitter to share your thoughts on the project.
+
+# Features
+
+## Actual
+- Selection of a git repository on your machine
+- Create Commit
+- Push and Pull functionality
+- Fast switch between multiple repositories
+- Change inspection
+- View commit history
+
+## Coming
+- Branch selection
+- Functionality to directly clone repositories with GitShuttle
+- Ui Improvements
+- Github and Gitlab support to display issues and more in GitShuttle
+- Much more...
+
+# Contents
+
+* [Description](#description)
+* [Features](#features)
+* [Install](#install)
+* [Usage](#usage)
+* [Configuration](#configuration)
+* [Before Flight](#before-flight)
+* [Flight Manual](#flight-manual)
+* [Development](#development)
+* [Team](#team)
+* [License](#license)
 
 # Introduction
 

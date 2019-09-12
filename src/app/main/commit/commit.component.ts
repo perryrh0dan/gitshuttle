@@ -39,7 +39,7 @@ export class CommitComponent implements OnInit {
     });
     this.commitsService.selectedCommit.subscribe(value => {
       this.selectedCommit = value;
-    })
+    });
   }
 
   collapseAll() {
@@ -67,14 +67,17 @@ export class CommitComponent implements OnInit {
     });
 
     if (files.length > 0) {
-      this.store.dispatch(start())
-      this.gitService.discartChangesInFile(this.currentRepository.path, files).then(() => {
-        this.commitsService.refresh().then(() => {
+      this.store.dispatch(start());
+      this.gitService
+        .discartChangesInFile(this.currentRepository.path, { files: files })
+        .then(() => {
+          this.commitsService.refresh().then(() => {
+            this.store.dispatch(stop());
+          });
+        })
+        .catch(error => {
           this.store.dispatch(stop());
         });
-      }).catch(error => {
-        this.store.dispatch(stop());
-      })
     }
   }
 

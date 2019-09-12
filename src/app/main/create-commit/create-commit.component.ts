@@ -36,11 +36,13 @@ export class CreateCommitComponent implements OnInit {
   commit() {
     const message = this.parseMessage();
     this.onCommit.emit(message);
+    this.clear();
   }
 
   commitAndPush() {
     const message = this.parseMessage();
     this.onCommitAndPush.emit(message);
+    this.clear();
   }
 
   parseMessage() {
@@ -53,5 +55,10 @@ export class CreateCommitComponent implements OnInit {
       }
     }
     return message;
+  }
+
+  clear() {
+    this.commitMessage = '';
+    this.commitDescription = '';
   }
 }
