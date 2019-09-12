@@ -8,6 +8,7 @@
 /release
 main.js
 src/**/*.js
+!src/app/core/libs/*
 !src/karma.conf.js
 *.js.map
 
@@ -48,3 +49,4 @@ package-lock.json
 # System Files
 .DS_Store
 Thumbs.db
+
