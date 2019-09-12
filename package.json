@@ -1,18 +1,18 @@
 {
   "name": "gitshuttle",
   "version": "0.1.0",
-  "description": "Git Client in Angular 8 with Electron (Typescript + SASS + Hot Reload)",
+  "description": "Multiplatform Git Client",
   "homepage": "https://github.com/perryrh0dan/gitshuttle",
   "author": {
     "name": "Thomas Pöhlmann",
     "email": "thomaspoehlmann96@googlemail.com"
   },
   "keywords": [
+    "git",
+    "client",
+    "multiplatform",
     "angular",
-    "angular 8",
-    "electron",
-    "typescript",
-    "sass"
+    "electron"
   ],
   "main": "main.js",
   "private": true,
