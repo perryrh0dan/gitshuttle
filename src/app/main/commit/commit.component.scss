@@ -2,7 +2,6 @@
   padding: 15px;
   border-bottom: #DDD 1px solid;
   word-break: break-word;
-  overflow: hidden;
 
   .h {
     margin: 0;
@@ -53,5 +52,15 @@ ul {
         margin-right: 10px;
       }
     }
+  }
+}
+
+.actual, .history {
+  display: flex;
+  flex-flow: column;
+  height: calc(100vh - 88px);
+
+  ul {
+    overflow: scroll;
   }
 }
