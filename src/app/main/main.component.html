@@ -5,13 +5,13 @@
   <div class="content" [hidden]="!currentRepository">
     <div class="content-left">
       <app-create-commit (onCommit)="commit($event)" (onCommitAndPush)="commitAndPush($event)" [status]="createCommitStatus"></app-create-commit>
-      <app-commits class="commits" [historyList]="historyList" (commitSelected)="selectCommit($event)"></app-commits>
+      <app-commits class="commits"></app-commits>
     </div>
     <div class="content-right">
-      <div class="main">
+      <div class="main" [hidden]="!selectedCommit">
         <tabset #tabs [justified]="true">
           <tab heading="History" (selectTab)="onSelect($event)" customClass="customTab">
-              <app-commit *ngIf="selectedCommit" [type]="'history'" [changes]="commitHistory" [selectedCommit]="selectedCommit.commit"></app-commit>
+              <app-commit *ngIf="selectedCommit" [type]="'history'" [changes]="commitHistory"></app-commit>
           </tab>
           <tab heading="Changes" (selectTab)="onSelect($event)">
             <app-commit [type]="'actual'" [changes]="commitChanges"></app-commit>

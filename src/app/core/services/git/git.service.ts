@@ -1,7 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Repository } from '../../models';
-
-var git = require('../../libs/git');
+var git = require('../../libs/git.ts');
 const sg = require('simple-git/promise');
 
 export class GitService {
@@ -73,5 +70,9 @@ export class GitService {
 
   public getLocalConfigs() {
     return git.getLocalConfigs();
+  }
+
+  public discartChangesInFile(path, opts) {
+    return git.discartChangesInFile(path, opts);
   }
 }

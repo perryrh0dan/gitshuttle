@@ -1,11 +1,29 @@
 <div class="nav">
   <div class="left">
     <span class="item">
-      <fa-icon class="icon" [icon]="faPlus" tooltip="Add, Clone or Create a repository" (click)="addRepository()"></fa-icon>
+      <fa-icon
+        class="icon"
+        [icon]="faPlus"
+        tooltip="Add, Clone or Create a repository"
+        (click)="addRepository()"
+      >
+      </fa-icon>
     </span>
     <span class="item">
-      <fa-icon class="icon" *ngIf="!(sidebarIsOpen$ | async)" [icon]="faToggleOn" (click)="toggleSidebar()" tooltip="Toggle sidebar"></fa-icon>
-      <fa-icon class="icon" *ngIf="sidebarIsOpen$ | async" [icon]="faToggleOff" (click)="toggleSidebar()" tooltip="Toggle sidebar"></fa-icon>
+      <fa-icon
+        class="icon"
+        *ngIf="!(sidebarIsOpen$ | async)"
+        [icon]="faToggleOn"
+        (click)="toggleSidebar()"
+        tooltip="Toggle sidebar"
+      ></fa-icon>
+      <fa-icon
+        class="icon"
+        *ngIf="sidebarIsOpen$ | async"
+        [icon]="faToggleOff"
+        (click)="toggleSidebar()"
+        tooltip="Toggle sidebar"
+      ></fa-icon>
     </span>
     <span class="item" *ngIf="currentBranch">
       <fa-icon class="icon" [icon]="faCodeBranch"></fa-icon>
@@ -13,16 +31,26 @@
     </span>
   </div>
   <div class="center">
-    <span class="item">
+    <div class="item" *ngIf="currentBranch">
       <fa-icon class="icon" [icon]="faChevronUp"></fa-icon>
-    </span>
+      <span>Push</span>
+    </div>
+    <div class="item" *ngIf="currentBranch">
+      <fa-icon class="icon" [icon]="faChevronDown"></fa-icon>
+      <span>Pull</span>
+    </div>
   </div>
   <div class="right">
-    <span class="item" *ngIf="isLoading$ | async ">
+    <span class="item" *ngIf="isLoading$ | async">
       <div class="spinner"></div>
     </span>
     <span class="item">
-      <fa-icon class="icon" [icon]="faCog" tooltip="Settings" (click)="showSettings()"></fa-icon>
+      <fa-icon
+        class="icon"
+        [icon]="faCog"
+        tooltip="Settings"
+        (click)="showSettings()"
+      ></fa-icon>
     </span>
   </div>
 </div>

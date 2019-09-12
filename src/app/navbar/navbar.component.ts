@@ -7,7 +7,8 @@ import {
   faToggleOff,
   faSync,
   faCodeBranch,
-  faChevronUp
+  faChevronUp,
+  faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 
 import { AddRepositoryComponent } from '../shared/components';
@@ -17,7 +18,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { open } from '../actions/settings.actions';
 import { toggle } from '../actions/sidebar.actions';
-import { RepositoryService } from '../core/services';
+import { CommitsService } from '../main/services';
 
 @Component({
   selector: 'app-navbar',
@@ -32,14 +33,15 @@ export class NavbarComponent implements OnInit {
   faSync = faSync;
   faCodeBranch = faCodeBranch;
   faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
 
   isLoading$: Observable<Boolean>;
   sidebarIsOpen$: Observable<Boolean>;
   currentBranch: String;
 
   constructor(
-    private repositoryService: RepositoryService,
     private branchService: BranchService,
+    private commitsService: CommitsService,
     private dialog: MatDialog,
     private store: Store<{ loading: Boolean }>
   ) {

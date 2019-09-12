@@ -28,6 +28,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .item {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      padding: 0px 10px 0px 10px;
+      cursor: pointer;
+    }
   }
 
   .right {

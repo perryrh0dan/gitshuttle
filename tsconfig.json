@@ -18,6 +18,9 @@
       "dom"
     ]
   },
+  // "files": [
+  //   "src/app/core/libs/git.ts"
+  // ],
   "include": [
     "main.ts",
     "src/**/*"

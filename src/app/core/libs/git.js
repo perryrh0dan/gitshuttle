@@ -22,42 +22,26 @@ function Git() {
  * @param {string} cwd
  * @return {Promise<string>} callback
  */
-function performCommand(command, cwd, callback) {
-  let path;
-
-  if (typeof cwd == 'function') {
-    callback = cwd;
-  } else {
-    path = cwd;
-  }
+function performCommand(command, cwd) {
+  let path = cwd;
 
   const exec = require('child_process').exec;
 
   return new Promise((resolve, reject) => {
-    exec(command, {
-      cwd: path,
-      env: ENV
-    }, (error, stdout, stderr) => {
-      if (error) {
-        console.warn(error);
+    exec(
+      command,
+      {
+        cwd: path,
+        env: ENV
+      },
+      (error, stdout, stderr) => {
+        if (error) {
+          reject(stderr);
+        }
+        resolve(stdout);
       }
-      resolve(stdout ? stdout : stderr);
-    });
-  })
-}
-
-/**
- * @private
- * @method invokeCallback
- * Verify if the callback param is a function an try to invoke it
- * @param {function} callback
- * @param {Array} args
- */
-function invokeCallback(callback, args, scope) {
-
-  if (callback && typeof callback == 'function') {
-    callback.apply(scope, args);
-  }
+    );
+  });
 }
 
 /**
@@ -66,54 +50,53 @@ function invokeCallback(callback, args, scope) {
  * @param  {string} path - Path of the git repository
  * @return {Promise}
  */
-Git.prototype.getCurrentBranch = function (path, callback) {
+Git.prototype.getCurrentBranch = function(path, callback) {
+  return performCommand('git branch -r && git branch', path)
+    .then(stdout => {
+      var lines = stdout.split('\n'),
+        currentBranch,
+        localBranches = [],
+        remoteBranches = [],
+        branchesDictionary = {};
 
-  return performCommand('git branch -r && git branch', path).then(stdout => {
-    var lines = stdout.split('\n'),
-      currentBranch,
-      localBranches = [],
-      remoteBranches = [],
-      branchesDictionary = {};
+      for (let i = 0; i < lines.length; i++) {
+        let isRemote = lines[i].indexOf('origin/') > -1;
+        let isHEAD = lines[i].indexOf('HEAD ->') > -1;
+        let existsInAnyList = branchesDictionary[lines[i].trim()];
 
-    for (let i = 0; i < lines.length; i++) {
-      let isRemote = lines[i].indexOf('origin/') > -1;
-      let isHEAD = lines[i].indexOf('HEAD ->') > -1;
-      let existsInAnyList = branchesDictionary[(lines[i].trim())];
+        if (!existsInAnyList && !isHEAD && lines[i]) {
+          if (isRemote) {
+            lines[i] = lines[i].replace('origin/', '').trim();
+            remoteBranches.push(lines[i]);
+          } else {
+            if (lines[i].indexOf('*') > -1) {
+              lines[i] = lines[i].replace('*', '').trim();
 
-      if (!existsInAnyList && !isHEAD && lines[i]) {
+              currentBranch = lines[i];
 
-        if (isRemote) {
-          lines[i] = lines[i].replace('origin/', '').trim();
-          remoteBranches.push(lines[i]);
-        } else {
+              if (!branchesDictionary[lines[i].trim()]) {
+                localBranches.push(lines[i].trim());
+              }
 
-          if (lines[i].indexOf('*') > -1) {
-            lines[i] = lines[i].replace('*', '').trim();
-
-            currentBranch = lines[i];
-
-            if (!branchesDictionary[lines[i].trim()]) {
-              localBranches.push(lines[i].trim());
+              continue;
             }
 
-            continue;
+            localBranches.push(lines[i].trim());
           }
 
-          localBranches.push(lines[i].trim());
+          branchesDictionary[lines[i].trim()] = lines[i].trim();
         }
-
-        branchesDictionary[lines[i].trim()] = lines[i].trim();
       }
-    }
 
-    return {
-      currentBranch: currentBranch,
-      remoteBranches: remoteBranches,
-      localBranches: localBranches
-    };
-  }).catch(error => {
-    return error;
-  })
+      return {
+        currentBranch: currentBranch,
+        remoteBranches: remoteBranches,
+        localBranches: localBranches
+      };
+    })
+    .catch(error => {
+      return error;
+    });
 };
 
 /**
@@ -124,13 +107,12 @@ Git.prototype.getCurrentBranch = function (path, callback) {
  * - {Number} skip - Number of commits to skip
  * @param  {function} callback - Callback to be execute in error or success case
  */
-Git.prototype.getCommitHistory = function (opts) {
-  let skip = (opts.skip ? `--skip ${opts.skip}` : ''),
+Git.prototype.getCommitHistory = function(opts) {
+  let skip = opts.skip ? `--skip ${opts.skip}` : '',
     filter = '',
     command;
 
   if (opts.filter && opts.filter.text) {
-
     switch (opts.filter.type) {
       case 'MESSAGE':
         filter = `--grep="${opts.filter.text}"`;
@@ -146,31 +128,32 @@ Git.prototype.getCommitHistory = function (opts) {
 
   command = `git --no-pager log -n 25 --pretty=format:%an-gtseparator-%cr-gtseparator-%h-gtseparator-%s-gtseparator-%b-gtseparator-%ae-gtseparator-%p-pieLineBreak- ${skip} ${filter}`;
 
-  return performCommand(command, opts.path).then(stdout => {
-    var lines = stdout.split('-pieLineBreak-'),
-      historyList = [];
+  return performCommand(command, opts.path)
+    .then(stdout => {
+      var lines = stdout.split('-pieLineBreak-'),
+        historyList = [];
 
-    for (var i = 0; i < lines.length; i++) {
+      for (var i = 0; i < lines.length; i++) {
+        if (lines[i] !== '') {
+          var historyItem = lines[i].split('-gtseparator-');
 
-      if (lines[i] !== '') {
-        var historyItem = lines[i].split('-gtseparator-');
-
-        historyList.push({
-          user: historyItem[0],
-          date: historyItem[1],
-          hash: historyItem[2],
-          message: historyItem[3],
-          body: historyItem[4],
-          email: historyItem[5],
-          parentHash: historyItem[6]
-        });
+          historyList.push({
+            user: historyItem[0],
+            date: historyItem[1],
+            hash: historyItem[2],
+            message: historyItem[3],
+            body: historyItem[4],
+            email: historyItem[5],
+            parentHash: historyItem[6]
+          });
+        }
       }
-    }
 
-    return historyList;
-  }).catch(error => {
-    return error;
-  });
+      return historyList;
+    })
+    .catch(error => {
+      return error;
+    });
 };
 
 /**
@@ -179,8 +162,7 @@ Git.prototype.getCommitHistory = function (opts) {
  * @param  {string} path - Path of the git repository
  * @param  {function} callback - Callback to be execute in error or success case
  */
-Git.prototype.getStatus = function (path, callback) {
-
+Git.prototype.getStatus = function(path) {
   return performCommand('git status -sb', path).then(stdout => {
     var syncStatus = {
         ahead: null,
@@ -192,22 +174,28 @@ Git.prototype.getStatus = function (path, callback) {
       unsyncParts;
 
     // First line ever is the sync numbers status
-    unsynChanges = lines[0].substring(lines[0].lastIndexOf("[") + 1, lines[0].lastIndexOf("]"));
+    unsynChanges = lines[0].substring(
+      lines[0].lastIndexOf('[') + 1,
+      lines[0].lastIndexOf(']')
+    );
 
     unsyncParts = unsynChanges.split(',');
 
-    unsyncParts.forEach(function (i) {
+    unsyncParts.forEach(function(i) {
       var item = i.trim();
 
       if (item.indexOf('ahead') > -1) {
-        syncStatus.ahead = item.substring(item.lastIndexOf('ahead') + 5, item.length).trim();
+        syncStatus.ahead = item
+          .substring(item.lastIndexOf('ahead') + 5, item.length)
+          .trim();
       } else if (item.indexOf('behind') > -1) {
-        syncStatus.behind = item.substring(item.lastIndexOf('behind ') + 6, item.length).trim();
+        syncStatus.behind = item
+          .substring(item.lastIndexOf('behind ') + 6, item.length)
+          .trim();
       }
     });
 
     for (var i = 1; i < lines.length; i++) {
-
       if (lines[i]) {
         let staged = false,
           referenceChar,
@@ -222,7 +210,10 @@ Git.prototype.getStatus = function (path, callback) {
           referenceChar = lines[i][1];
         }
 
-        lines[i] = lines[i].substring(2).replace(/"/g, '').trim();
+        lines[i] = lines[i]
+          .substring(2)
+          .replace(/"/g, '')
+          .trim();
 
         statusItem = {
           displayPath: lines[i],
@@ -235,7 +226,7 @@ Git.prototype.getStatus = function (path, callback) {
         switch (referenceChar.toLocaleUpperCase()) {
           case 'R':
             statusItem.type = 'RENAMED';
-            status.path = lines[i].split('->')[1].trim();
+            statusItem.path = lines[i].split('->')[1].trim();
             break;
 
           case 'M':
@@ -267,7 +258,7 @@ Git.prototype.getStatus = function (path, callback) {
     return {
       syncStatus,
       files
-    }
+    };
   });
 };
 
@@ -281,15 +272,16 @@ Git.prototype.getStatus = function (path, callback) {
 //   performCommand('git fetch --prune', path, callback);
 // };
 
-Git.prototype.getDiff = function (opts, callback) {
-
-  return performCommand(`git diff --numstat ${opts.ancestorHash} ${opts.hash}`, opts.path).then(stdout => {
+Git.prototype.getDiff = function(opts, callback) {
+  return performCommand(
+    `git diff --numstat ${opts.ancestorHash} ${opts.hash}`,
+    opts.path
+  ).then(stdout => {
     var files = [];
 
     var lines = stdout.split('\n');
 
-    lines.forEach(function (line) {
-
+    lines.forEach(function(line) {
       if (line) {
         var props = line.split('\t');
 
@@ -297,16 +289,16 @@ Git.prototype.getDiff = function (opts, callback) {
           name: props[2],
           additions: parseInt(props[0]),
           deletions: parseInt(props[1]),
-          isBinary: (props[0] == '-' || props[1] == '-') ? true : false
+          isBinary: props[0] == '-' || props[1] == '-' ? true : false
         });
       }
     });
 
-    return files
+    return files;
   });
 };
 
-Git.prototype.getUnsyncFileDiff = function (opts, callback) {
+Git.prototype.getUnsyncFileDiff = function(opts, callback) {
   opts = opts || {};
 
   var path = opts.path,
@@ -315,8 +307,11 @@ Git.prototype.getUnsyncFileDiff = function (opts, callback) {
   return performCommand(`git diff HEAD "${file.trim()}"`, path);
 };
 
-Git.prototype.getFileDiff = function (opts) {
-  return performCommand(`git log --format=\'%N\' -p -1 ${opts.hash} -- "${opts.file}"`, opts.path);
+Git.prototype.getFileDiff = function(opts) {
+  return performCommand(
+    `git log --format=\'%N\' -p -1 ${opts.hash} -- "${opts.file}"`,
+    opts.path
+  );
 };
 
 // Git.prototype.sync = function (opts, callback) {
@@ -406,7 +401,7 @@ Git.prototype.push = function(path, opts) {
   let command = `git push ${opts.remote} ${opts.branch}`;
 
   return performCommand(command, path);
-}
+};
 
 // Git.prototype.switchBranch = function (opts, callback) {
 //   opts = opts || {};
@@ -422,48 +417,55 @@ Git.prototype.push = function(path, opts) {
 //   performCommand('git rev-list HEAD --count', path, callback);
 // };
 
-Git.prototype.showRemotes = function (path) {
+Git.prototype.showRemotes = function(path) {
   return performCommand('git remote -v', path);
 };
 
-Git.prototype.listRemotes = function (path) {
+Git.prototype.listRemotes = function(path) {
+  return performCommand('git remote show', path)
+    .then(stdout => {
+      let repositoryRemotes = {};
+      let remoteShowLines = stdout.split('\n');
 
-  return performCommand('git remote show', path).then(stdout => {
-    let repositoryRemotes = {};
-    let remoteShowLines = stdout.split('\n');
+      remoteShowLines.forEach(function(line) {
+        if (line) {
+          repositoryRemotes[line.trim()] = {};
+        }
+      });
 
-    remoteShowLines.forEach(function (line) {
-      if (line) {
-        repositoryRemotes[line.trim()] = {};
-      }
-    });
-
-    if (Object.keys(repositoryRemotes).length > 0) {
-      return this.showRemotes(path).then(remotes => {
-        var remoteList = remotes.split('\n');
-        for (var remote in repositoryRemotes) {
-          for (let i = 0; i < remoteList.length; i++) {
-            if (remoteList[i].indexOf(remote) > -1) {
-              if (remoteList[i].indexOf('(push)') > -1) {
-                repositoryRemotes[remote].push = remoteList[i].replace('(push)', '').replace(remote, '').trim();
-              } else if (remoteList[i].indexOf('(fetch)')) {
-                repositoryRemotes[remote].fetch = remoteList[i].replace('(fetch)', '').replace(remote, '').trim();
+      if (Object.keys(repositoryRemotes).length > 0) {
+        return this.showRemotes(path).then(remotes => {
+          var remoteList = remotes.split('\n');
+          for (var remote in repositoryRemotes) {
+            for (let i = 0; i < remoteList.length; i++) {
+              if (remoteList[i].indexOf(remote) > -1) {
+                if (remoteList[i].indexOf('(push)') > -1) {
+                  repositoryRemotes[remote].push = remoteList[i]
+                    .replace('(push)', '')
+                    .replace(remote, '')
+                    .trim();
+                } else if (remoteList[i].indexOf('(fetch)')) {
+                  repositoryRemotes[remote].fetch = remoteList[i]
+                    .replace('(fetch)', '')
+                    .replace(remote, '')
+                    .trim();
+                }
               }
             }
           }
-        }
 
-        return repositoryRemotes;
-      });
-    } else {
-      let error = new Error(`The repository do not have any remote`);
-      error.code = 'ENOREMOTE';
+          return repositoryRemotes;
+        });
+      } else {
+        let error = new Error(`The repository do not have any remote`);
+        error.code = 'ENOREMOTE';
 
+        return error;
+      }
+    })
+    .catch(error => {
       return error;
-    }
-  }).catch(error => {
-    return error;
-  });
+    });
 };
 
 // Git.prototype.discartChangesInFile = function (path, opts) {
@@ -655,13 +657,12 @@ Git.prototype.listRemotes = function (path) {
 //   performCommand(`git diff ${opts.reflogSelector} -- "${opts.fileName.trim()}"`, path, opts.callback);
 // };
 
-Git.prototype.getGlobalConfigs = function () {
-
+Git.prototype.getGlobalConfigs = function() {
   return performCommand('git config --global -l').then(stdout => {
     let configs = {};
     var lines = stdout.split('\n');
 
-    lines.forEach(function (line) {
+    lines.forEach(function(line) {
       if (line) {
         var config = line.split('=');
         configs[config[0].trim()] = config[1].trim();
@@ -670,13 +671,12 @@ Git.prototype.getGlobalConfigs = function () {
   });
 };
 
-Git.prototype.getLocalConfigs = function (path) {
-
-  performCommand('git config -l', path).then(stdout => {
+Git.prototype.getLocalConfigs = function(path) {
+  return performCommand('git config -l', path).then(stdout => {
     let configs = {};
     var lines = stdout.split('\n');
 
-    lines.forEach(function (line) {
+    lines.forEach(function(line) {
       if (line) {
         var config = line.split('=');
         configs[config[0].trim()] = config[1].trim();
