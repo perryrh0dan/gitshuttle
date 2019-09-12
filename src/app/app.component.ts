@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ElectronService } from './core/services';
+import { ElectronService, SettingsService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { MatSidenav } from '@angular/material';
@@ -20,11 +20,11 @@ export class AppComponent {
 
   constructor(
     public electronService: ElectronService,
-    private translate: TranslateService,
+    private settingsService: SettingsService,
     private store: Store<{ sidebar: Boolean }>
   ) {
-    this.translate.setDefaultLang('en');
     console.log('environment', environment);
+    this.settingsService.setAppLanguage();
 
     if (electronService.isElectron) {
       console.log(process.env);

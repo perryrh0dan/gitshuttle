@@ -55,6 +55,28 @@
       }
     }
 
-    .body {}
+    .body {
+      .label {
+        padding: 10px 20px;
+        font-weight: bold;
+        color: #5cb6ad;
+      }
+
+
+      ul {
+        margin-left: 10px;
+        list-style: none;
+
+        li {
+          padding: 15px 20px;
+
+          .label-field {
+            color: #666;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+        }
+      }
+    }
   }
 }

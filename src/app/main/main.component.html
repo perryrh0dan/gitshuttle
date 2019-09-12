@@ -4,7 +4,7 @@
   </div>
   <div class="content" [hidden]="!currentRepository">
     <div class="content-left">
-      <app-create-commit (onCommit)="commitSelectedChanges($event)" [status]="createCommitStatus"></app-create-commit>
+      <app-create-commit (onCommit)="commit($event)" (onCommitAndPush)="commitAndPush($event)" [status]="createCommitStatus"></app-create-commit>
       <app-commits class="commits" [historyList]="historyList" (commitSelected)="selectCommit($event)"></app-commits>
     </div>
     <div class="content-right">

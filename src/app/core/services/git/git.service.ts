@@ -1,12 +1,11 @@
-import { BehaviorSubject, Observable } from "rxjs";
-import { Repository } from "../../models";
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Repository } from '../../models';
 
 var git = require('../../libs/git');
 const sg = require('simple-git/promise');
 
 export class GitService {
-  constructor(
-  ) { }
+  constructor() {}
 
   public getCurrentBranch(path) {
     return git.getCurrentBranch(path);
@@ -33,15 +32,35 @@ export class GitService {
   }
 
   public getUnsyncFileDiff(opts) {
-    return git.getUnsyncFileDiff(opts)
+    return git.getUnsyncFileDiff(opts);
   }
 
   public add(path, files) {
-    return sg(path).add(files)
+    return sg(path).add(files);
   }
 
-  public commit(path, message) {
-    return sg(path).commit(message);
+  public commit(path, files) {
+    return sg(path).commit();
+  }
+
+  public addCommit(path, files, message) {
+    return sg(path)
+      .add(files)
+      .then(() => {
+        return sg(path).commit(message);
+      });
+  }
+
+  public addCommitPush(
+    path,
+    files,
+    message: String,
+    remote: String,
+    branch: String
+  ) {
+    return this.addCommit(path, files, message).then(() => {
+      return git.push(path, { remote: remote, branch: branch })
+    });
   }
 
   public push(path, branch) {

@@ -22,6 +22,7 @@ const wos = require('node-wos');
 export class CreateCommitComponent implements OnInit {
   @Input() status: String
   @Output() onCommit: EventEmitter<String> = new EventEmitter<String>();
+  @Output() onCommitAndPush: EventEmitter<String> = new EventEmitter<String>();
 
   commitMessage: String;
   commitDescription: String;
@@ -33,6 +34,16 @@ export class CreateCommitComponent implements OnInit {
   }
 
   commit() {
+    const message = this.parseMessage();
+    this.onCommit.emit(message);
+  }
+
+  commitAndPush() {
+    const message = this.parseMessage();
+    this.onCommitAndPush.emit(message);
+  }
+
+  parseMessage() {
     let message = ''.concat((this.commitMessage.replace(/"/g, '\\"')));
     if (this.commitDescription) {
       if (wos.isWindows()) {
@@ -41,6 +52,6 @@ export class CreateCommitComponent implements OnInit {
         message = message.concat(this.commitDescription.replace(/"/g, '\\"'));
       }
     }
-    this.onCommit.emit(message);
+    return message;
   }
 }

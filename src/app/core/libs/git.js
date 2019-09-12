@@ -402,6 +402,12 @@ Git.prototype.getFileDiff = function (opts) {
 //   performCommand(commad, path, opts.callback);
 // };
 
+Git.prototype.push = function(path, opts) {
+  let command = `git push ${opts.remote} ${opts.branch}`;
+
+  return performCommand(command, path);
+}
+
 // Git.prototype.switchBranch = function (opts, callback) {
 //   opts = opts || {};
 

@@ -102,6 +102,7 @@
     "emoji": "^0.3.2",
     "git-url-parse": "^11.1.2",
     "ngx-bootstrap": "^5.1.1",
+    "ngx-select-ex": "^3.7.2",
     "node-wos": "^0.2.3",
     "simple-git": "^1.126.0"
   }

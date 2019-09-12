@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone, ViewEncapsulation } from '@angular/core';
-import { RepositoryService, GitService, ElectronService } from '../core/services';
+import { RepositoryService, GitService, ElectronService, BranchService } from '../core/services';
 import { Repository } from '../core/models';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
 
@@ -16,6 +16,8 @@ export class MainComponent implements OnInit {
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
 
   currentRepository: Repository;
+  currentBranch: String;
+
   historyList: [];
   selectedCommit;
   selectedTab: TabDirective;
@@ -28,6 +30,7 @@ export class MainComponent implements OnInit {
     private electronService: ElectronService,
     private zone: NgZone,
     private repositoryService: RepositoryService,
+    private branchService: BranchService,
     private gitService: GitService
   ) { }
 
@@ -39,11 +42,15 @@ export class MainComponent implements OnInit {
       }
     });
 
+    this.branchService.currentBranch.subscribe(value => {
+      this.currentBranch = value;
+    })
+
     /* Update the changed files ever time the application is focused */
     this.electronService.remote.getCurrentWindow().on('focus', function () {
       if (this.currentRepository) {
         this.zone.run(() => {
-          // set the correct directoryPath. 
+          // set the correct directoryPath.
           this.refresh();
         });
       }
@@ -68,24 +75,48 @@ export class MainComponent implements OnInit {
     this.showCommitChanges(commit.commit);
   }
 
-  commitSelectedChanges(commitMessage) {
+  commit(commitMessage) {
     if (commitMessage) {
-      let selectedFiles = [];
-
-      this.commitChanges.forEach(function (file) {
-        if (file.checked) {
-          selectedFiles.push(file.path);
-        }
-      });
+      this.store.dispatch(start());
+      const selectedFiles = this.getSelectedFiles();
 
       if (selectedFiles.length > 0) {
-        this.gitService.add(this.currentRepository.path, selectedFiles).then(() => {
-          this.gitService.commit(this.currentRepository.path, commitMessage).then(() => {
-            this.refresh();
-          })
+        this.gitService.addCommit(this.currentRepository.path, selectedFiles, commitMessage).then(() => {
+          this.store.dispatch(stop());
+          this.refresh();
+        }).catch(error => {
+
         })
       }
     }
+  }
+
+  commitAndPush(commitMessage) {
+    if (commitMessage) {
+      this.store.dispatch(start());
+      const selectedFiles = this.getSelectedFiles();
+
+      if (selectedFiles.length > 0) {
+        this.gitService.addCommitPush(this.currentRepository.path, selectedFiles, commitMessage, 'origin', this.currentBranch).then(() => {
+          this.store.dispatch(stop());
+          this.refresh();
+        }).catch(error => {
+          this.store.dispatch(stop());
+        })
+      }
+    }
+  }
+
+  getSelectedFiles() {
+    let selectedFiles = [];
+
+    this.commitChanges.forEach(function (file) {
+      if (file.checked) {
+        selectedFiles.push(file.path);
+      }
+    });
+
+    return selectedFiles
   }
 
   selectTab(tab: TabDirective) {

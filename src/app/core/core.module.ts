@@ -5,9 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
 
 // Services
-import { GitService } from './services';
-import { RepositoryService } from './services';
-import { BranchService } from './services';
+import { GitService, RepositoryService, BranchService, SettingsService } from './services';
 
 // Pipes
 
@@ -17,6 +15,6 @@ import { BranchService } from './services';
     CommonModule,
     MaterialModule
   ],
-  providers: [GitService, RepositoryService, BranchService]
+  providers: [GitService, RepositoryService, BranchService, SettingsService]
 })
 export class CoreModule { }

@@ -1,10 +1,6 @@
 {
   "SETTINGS": {
-    "TITLE": "Settings"
-  },
-  "PAGES": {
-      "HOME": {
-          "TITLE": "App works !"
-      }
+    "TITLE": "Settings",
+    "PREFERENCES": "Preferences"
   }
 }

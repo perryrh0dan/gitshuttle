@@ -43,6 +43,10 @@ export class RepositoryService {
     this.currentRepositorySubject.next(repository);
   }
 
+  reload() {
+    this.currentRepositorySubject.next(this.currentRepositorySubject.value);
+  }
+
   addRepository(path) {
     return this.gitService.listRemotes(path).then(repositoryRemotes => {
       let gitUrlParse = require('git-url-parse');

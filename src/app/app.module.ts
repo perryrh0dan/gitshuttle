@@ -3,6 +3,7 @@ import '../polyfills';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
@@ -26,8 +27,9 @@ import { MaterialModule } from './core/material/material.module'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Ngx Bootstrap
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TabsModule, TooltipModule } from 'ngx-bootstrap';
+
+import { NgxSelectModule } from 'ngx-select-ex';
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -54,6 +56,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -66,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FontAwesomeModule,
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    NgxSelectModule,
     CoreModule,
     SharedModule,
     MainModule,
