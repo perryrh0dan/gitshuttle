@@ -19,8 +19,9 @@
             checked="true" />
           <label *ngIf="change.type == 'ADDED'" for="change{{$index}}"></label>
           <span
-            title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath}}
+            title="{{ change.displayPath.length > 50 ? change.displayPath : '' }}">{{ change.displayPath.length > 50 ? '...' : ''}}{{ change.displayPath | truncate:[50]}}
           </span>
+          <span class="label" [ngClass]="getChangeTypeClass(change.type)">{{ getChangeTypeMessage(change.type) | translate }}</span>
         </header>
         <code *ngIf="change.showCode" [innerHTML]="change.code | sanitize"></code>
       </li>
@@ -31,7 +32,6 @@
       <h2 [innerHTML]="selectedCommit.message | sanitize"></h2>
       <p class="commit-body" *ngIf="selectedCommit.body"
         [innerHTML]="selectedCommit.body | sanitize"></p>
-
       <h4 *ngIf="selectedCommit?.user">
         <span class="octicon octicon-person"></span> {{ selectedCommit?.user }}
       </h4>
@@ -52,7 +52,7 @@
             ng-class="{ 'octicon-triangle-right': !history.showCode, 'octicon-triangle-down': history.showCode}"
             class="octicon octicon-triangle-right"></span>
           <span
-            title="{{ history.name.length > 50 ? history.name : '' }}">{{ history.name.length > 50 ? '...' : ''}}{{ history.name }}</span>
+            title="{{ history.name.length > 50 ? history.name : '' }}">{{ history.name.length > 50 ? '...' : ''}}{{ history.name | truncate:[50]}}</span>
         </header>
         <code *ngIf="history.showCode" [innerHTML]="history.code | sanitize"></code>
       </li>

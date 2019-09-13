@@ -31,7 +31,7 @@ export class CommitComponent implements OnInit {
     private repositoryService: RepositoryService,
     private gitService: GitService,
     private commitsService: CommitsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.repositoryService.currentRepository.subscribe(value => {
@@ -52,6 +52,32 @@ export class CommitComponent implements OnInit {
     this.changes.forEach(change => {
       this.showFileDiff(change, false);
     });
+  }
+
+  getChangeTypeClass(type) {
+    switch (type) {
+      case 'MODIFIED':
+        return 'label-modified';
+
+      case 'DELETED':
+        return 'label-deleted';
+
+      case 'NEW':
+        return 'label-new';
+
+      case 'RENAMED':
+        return 'label-renamed';
+
+      case 'ADDED':
+        return 'label-added';
+
+      case 'UNMERGED':
+        return 'label-unmerged';
+    }
+  }
+
+  getChangeTypeMessage(type) {
+    return 'COMMIT.CHANGETYPE.' + type;
   }
 
   discartAllSelected() {

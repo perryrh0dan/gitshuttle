@@ -46,10 +46,17 @@ ul {
     word-wrap: break-word;
 
     header {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
       padding: 10px 25px;
 
       .item {
         margin-right: 10px;
+      }
+
+      .label {
+        margin-left: auto;
       }
     }
   }
@@ -63,4 +70,47 @@ ul {
   ul {
     overflow: scroll;
   }
+}
+
+.label {
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-weight: bold;
+  color: #FFF;
+}
+
+.label-modified {
+  @extend .label;
+  background-color: #ffaf00;
+}
+
+.label-new {
+  @extend .label;
+  background-color: #6CC644;
+}
+
+.label-added {
+  @extend .label-new;
+}
+
+.label-deleted {
+  @extend .label;
+  background-color: #D7431B;
+}
+
+.label-unmerged {
+  @extend.label;
+  background-color: #BD4F32;
+}
+
+.label-renamed {
+  @extend .label;
+  background-color: #773F22;
+}
+
+.label-binary {
+  @extend .label;
+  color: #986B45;
+  display: inline-block;
+  background-color: #F5E8DB;
 }

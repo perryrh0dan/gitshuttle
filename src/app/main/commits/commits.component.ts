@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommitsService } from '../services';
+import { Store } from '@ngrx/store';
+import { open } from '../../actions/maintab.actions';
 
 @Component({
   selector: 'app-commits',
@@ -11,6 +13,7 @@ export class CommitsComponent implements OnInit {
   selectedCommit;
 
   constructor(
+    private store: Store<{}>,
     private commitsService: CommitsService
   ) { }
 
@@ -23,7 +26,8 @@ export class CommitsComponent implements OnInit {
     })
   }
 
-  selectCommit(commit, manual) {
+  selectCommit(commit) {
+    this.store.dispatch(open('left'));
     this.commitsService.selectCommit(commit);
   }
 }

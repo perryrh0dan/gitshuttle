@@ -18,6 +18,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { loadingReducer } from './reducers/loading.reducer';
 import { sidebarReducer } from './reducers/sidebar.reducer';
 import { settingsReducer } from './reducers/settings.reducer';
+import { maintabReducer } from './reducers/maintab.reducer';
 
 // Angular Material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -28,8 +29,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Ngx Bootstrap
 import { TabsModule, TooltipModule } from 'ngx-bootstrap';
-
-import { NgxSelectModule } from 'ngx-select-ex';
 
 // NG Translate
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -70,14 +69,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     FontAwesomeModule,
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
-    NgxSelectModule,
     CoreModule,
     SharedModule,
     MainModule,
     StoreModule.forRoot({
       loading: loadingReducer,
       sidebar: sidebarReducer,
-      settings: settingsReducer
+      settings: settingsReducer,
+      maintab: maintabReducer
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],

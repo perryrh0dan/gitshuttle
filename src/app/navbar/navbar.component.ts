@@ -19,6 +19,7 @@ import { Observable } from 'rxjs';
 import { open } from '../actions/settings.actions';
 import { toggle } from '../actions/sidebar.actions';
 import { CommitsService } from '../main/services';
+import { GitService, RepositoryService } from '../core/services';
 
 @Component({
   selector: 'app-navbar',
@@ -40,8 +41,10 @@ export class NavbarComponent implements OnInit {
   currentBranch: String;
 
   constructor(
+    private repositoryService: RepositoryService,
     private branchService: BranchService,
     private commitsService: CommitsService,
+    private gitService: GitService,
     private dialog: MatDialog,
     private store: Store<{ loading: Boolean }>
   ) {
@@ -69,5 +72,9 @@ export class NavbarComponent implements OnInit {
     // dialogConfig.width = '100px'
     // dialogConfig.height = '50px'
     this.dialog.open(AddRepositoryComponent, dialogConfig);
+  }
+
+  push() {
+    this.gitService.push(this.repositoryService.currentRepositoryValue(), this.currentBranch);
   }
 }

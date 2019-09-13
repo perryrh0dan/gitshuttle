@@ -1,6 +1,17 @@
 {
   "SETTINGS": {
     "TITLE": "Settings",
-    "PREFERENCES": "Preferences"
+    "PREFERENCES": "Preferences",
+    "LANGUAGE": "Language"
+  },
+  "COMMIT": {
+    "CHANGETYPE": {
+      "MODIFIED": "Modified", 
+      "DELETED": "Deleted",
+      "NEW": "New",
+      "RENAMED": "Renamed",
+      "ADDED": "Added",
+      "UNMERGED": "Unmerged"
+    }
   }
 }

@@ -19,6 +19,10 @@ export class RepositoryService {
     this.currentRepository = this.currentRepositorySubject.asObservable();
   }
 
+  public currentRepositoryValue() {
+    return this.currentRepositorySubject.value;
+  }
+
   load() {
     const repoList = Array<Repository>();
     const repositoryString = localStorage.getItem('repos')

@@ -32,8 +32,8 @@
   </div>
   <div class="center">
     <div class="item" *ngIf="currentBranch">
-      <fa-icon class="icon" [icon]="faChevronUp"></fa-icon>
-      <span>Push</span>
+      <fa-icon class="icon" [icon]="faChevronUp" (click)="push()"></fa-icon>
+      <span (click)="push()">Push</span>
     </div>
     <div class="item" *ngIf="currentBranch">
       <fa-icon class="icon" [icon]="faChevronDown"></fa-icon>

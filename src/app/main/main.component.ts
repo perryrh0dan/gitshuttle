@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   NgZone,
-  ViewEncapsulation
+  ViewEncapsulation,
+  OnChanges
 } from '@angular/core';
 import {
   RepositoryService,
@@ -17,8 +18,11 @@ import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
 // Store
 import { Store, select } from '@ngrx/store';
 import { start, stop } from '../actions/loading.actions';
+import { open } from '../actions/maintab.actions';
 
 import { CommitsService } from './services';
+import { Observable } from 'rxjs';
+import { selectMainTab } from '../selector/maintab.selector';
 
 @Component({
   selector: 'app-home',
@@ -26,14 +30,14 @@ import { CommitsService } from './services';
   styleUrls: ['./main.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnChanges {
   @ViewChild('tabs', { static: true }) public tabs: TabsetComponent;
 
   currentRepository: Repository;
   currentBranch: String;
 
   selectedCommit;
-  selectedTab: TabDirective;
+  selectedTab: Observable<string>;
   createCommitStatus: String;
   commitChanges = new Array<any>();
   commitHistory = new Array<any>();
@@ -46,7 +50,11 @@ export class MainComponent implements OnInit {
     private branchService: BranchService,
     private commitsService: CommitsService,
     private gitService: GitService
-  ) {}
+  ) { 
+    this.store.select<String>(selectMainTab).subscribe(value => {  
+      this.changeTab(0);
+    })
+  }
 
   ngOnInit() {
     this.repositoryService.currentRepository.subscribe(value => {
@@ -75,7 +83,7 @@ export class MainComponent implements OnInit {
     /* Update the changed files ever time the application is focused */
     this.electronService.remote.getCurrentWindow().on(
       'focus',
-      function() {
+      function () {
         if (this.currentRepository) {
           this.zone.run(() => {
             // set the correct directoryPath.
@@ -84,6 +92,10 @@ export class MainComponent implements OnInit {
         }
       }.bind(this)
     );
+  }
+
+  ngOnChanges() {
+    console.log(this.selectedTab);
   }
 
   refresh() {
@@ -105,7 +117,7 @@ export class MainComponent implements OnInit {
             this.store.dispatch(stop());
             this.refresh();
           })
-          .catch(error => {});
+          .catch(error => { });
       }
     }
   }
@@ -138,7 +150,7 @@ export class MainComponent implements OnInit {
   getSelectedFiles() {
     let selectedFiles = [];
 
-    this.commitChanges.forEach(function(file) {
+    this.commitChanges.forEach(function (file) {
       if (file.checked) {
         selectedFiles.push(file.path);
       }
@@ -148,8 +160,8 @@ export class MainComponent implements OnInit {
   }
 
   selectTab(tab: TabDirective) {
-    this.selectedTab = tab;
     if (tab.heading === 'Changes') {
+      // this.store.dispatch(open('right'));
       this.createCommitStatus = 'open';
     } else {
       this.createCommitStatus = 'close';
@@ -157,11 +169,11 @@ export class MainComponent implements OnInit {
   }
 
   changeTab(index) {
+    if (!this.tabs) return;
     this.tabs.tabs[index].active = true;
   }
 
   onSelect(tab: TabDirective): void {
-    this.selectedTab = tab;
     if (tab.heading === 'Changes') {
       this.createCommitStatus = 'open';
     } else {
