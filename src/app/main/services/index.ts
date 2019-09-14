@@ -1,1 +1,1 @@
-export * from './commits/commits.service'
+export * from './commits/commits.service';

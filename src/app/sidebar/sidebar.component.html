@@ -1,8 +1,25 @@
 <div class="sidebar">
   <div class="search">
-      <input class="form-control" type="text" name="search" [(ngModel)]="query" placeholder="Search for a repository"/>
+    <input
+      class="form-control"
+      type="text"
+      name="search"
+      [(ngModel)]="query"
+      placeholder="Search for a repository"
+    />
   </div>
   <div class="repositories">
-    <span class="item" *ngFor="let repo of repositories | RepoFilter: query" [ngClass]="activeState(repo)" (click)="selectRepository(repo)">{{repo.name}}</span>
+    <span
+      class="item"
+      *ngFor="let repo of repositories | RepoFilter: query"
+      [ngClass]="activeState(repo)"
+      (click)="selectRepository(repo)"
+    >
+      <span style="visibility: hidden; margin-right: auto"></span>
+      <span>
+        {{ repo.name }}
+      </span>
+      <fa-icon [icon]="fasStar" style="margin-left: auto"></fa-icon
+    ></span>
   </div>
 </div>

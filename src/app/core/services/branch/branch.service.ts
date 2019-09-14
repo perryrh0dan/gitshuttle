@@ -18,11 +18,11 @@ export class BranchService {
     private repositoryService: RepositoryService
   ) {
     this.currentBranchSubject = new BehaviorSubject<String>('');
-    this.currentBranch = this.currentBranchSubject.asObservable()
+    this.currentBranch = this.currentBranchSubject.asObservable();
     this.remoteBranchesSubject = new BehaviorSubject<Array<String>>([]);
-    this.remotebranches = this.remoteBranchesSubject.asObservable()
+    this.remotebranches = this.remoteBranchesSubject.asObservable();
     this.localBranchesSubject = new BehaviorSubject<Array<String>>([]);
-    this.localBranches = this.localBranchesSubject.asObservable()
+    this.localBranches = this.localBranchesSubject.asObservable();
     this.repositoryService.currentRepository.subscribe(repository => {
       if (repository) {
         this.loadBranches(repository);
@@ -36,7 +36,7 @@ export class BranchService {
       this.remoteBranchesSubject.next(result.remoteBranches);
       this.localBranchesSubject.next(result.localBranches);
     }).catch(error => {
-      console.log(error)
+      console.log(error);
     });
   }
 }

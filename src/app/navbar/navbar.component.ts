@@ -67,7 +67,7 @@ export class NavbarComponent implements OnInit {
   }
 
   addRepository() {
-    let dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     // dialogConfig.width = '100px'
     // dialogConfig.height = '50px'

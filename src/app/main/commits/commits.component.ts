@@ -20,10 +20,10 @@ export class CommitsComponent implements OnInit {
   ngOnInit() {
     this.commitsService.commits.subscribe(commits => {
       this.historyList = commits;
-    })
+    });
     this.commitsService.selectedCommit.subscribe(commit => {
       this.selectedCommit = commit;
-    })
+    });
   }
 
   selectCommit(commit) {

@@ -21,8 +21,8 @@ import { settingsReducer } from './reducers/settings.reducer';
 import { maintabReducer } from './reducers/maintab.reducer';
 
 // Angular Material
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from './core/material/material.module'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './core/material/material.module';
 
 // Font Awesome
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -34,11 +34,11 @@ import { TabsModule, TooltipModule } from 'ngx-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { MainModule } from './main/main.module'
+import { MainModule } from './main/main.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { SidebarComponent } from './sidebar/sidebar.component'
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { SettingsComponent } from './settings/settings.component';
 
 // Test

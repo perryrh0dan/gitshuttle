@@ -96,12 +96,12 @@ export class SettingsComponent implements OnInit {
   }
 
   getCurrentLanguage() {
-    let config = this.settingsService.getConfig();
+    const config = this.settingsService.getConfig();
     this.selectedLanguage = config.language;
   }
 
   changeAppLanguage(language) {
-    let config = this.settingsService.getConfig();
+    const config = this.settingsService.getConfig();
     config.language = language;
     this.settingsService.setAppLanguage(language);
     this.settingsService.setConfig(config);

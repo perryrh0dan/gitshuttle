@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class RepoFilterPipe implements PipeTransform {
   transform(repos: any, query: string): any {
-    if(!query) {
+    if (!query) {
       return repos;
     }
     return repos.filter((repo) => {

@@ -148,7 +148,7 @@ export class MainComponent implements OnInit, OnChanges {
   }
 
   getSelectedFiles() {
-    let selectedFiles = [];
+    const selectedFiles = [];
 
     this.commitChanges.forEach(function (file) {
       if (file.checked) {

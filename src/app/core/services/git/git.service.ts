@@ -1,4 +1,4 @@
-var git = require('../../libs/git.ts');
+let git = require('../../libs/git.ts');
 const sg = require('simple-git/promise');
 
 export class GitService {
@@ -56,7 +56,7 @@ export class GitService {
     branch: String
   ) {
     return this.addCommit(path, files, message).then(() => {
-      return git.push(path, { remote: remote, branch: branch })
+      return git.push(path, { remote: remote, branch: branch });
     });
   }
 
