@@ -55,7 +55,7 @@ export class CommitComponent implements OnInit {
   }
 
   discartAllSelected() {
-    let files = [];
+    const files = [];
 
     this.changes.forEach(change => {
       if (change.checked && !change.staged) {

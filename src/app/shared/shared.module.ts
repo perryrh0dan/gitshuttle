@@ -14,8 +14,8 @@ import { RepoFilterPipe, SanitizeHtmlPipe } from './pipes';
 
 @NgModule({
   declarations: [
-    PageNotFoundComponent, 
-    WebviewDirective, 
+    PageNotFoundComponent,
+    WebviewDirective,
     AddRepositoryComponent,
     RepoFilterPipe,
     SanitizeHtmlPipe

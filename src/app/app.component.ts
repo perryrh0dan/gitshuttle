@@ -35,7 +35,7 @@ export class AppComponent {
       console.log('Mode web');
     }
 
-    this.sidebarIsOpen$ = this.store.pipe(select('sidebar'))
+    this.sidebarIsOpen$ = this.store.pipe(select('sidebar'));
     this.sidebarIsOpen$.subscribe(value => {
       if (this.sidebar) {
         this.sidebar.toggle();

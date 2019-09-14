@@ -1,4 +1,4 @@
-var ENV = process.env;
+let ENV = process.env;
 const wos = require('node-wos');
 const GitUrlParse = require('git-url-parse');
 
@@ -6,7 +6,7 @@ ENV.LANG = 'en_US';
 
 class Git {
   performCommand(command, cwd?) {
-    let path = cwd;
+    const path = cwd;
 
     const exec = require('child_process').exec;
 
@@ -36,16 +36,16 @@ class Git {
   getCurrentBranch(path) {
     return this.performCommand('git branch -r && git branch', path)
       .then((stdout: String) => {
-        var lines = stdout.split('\n'),
-          currentBranch,
-          localBranches = [],
-          remoteBranches = [],
-          branchesDictionary = {};
+        const lines = stdout.split('\n');
+        const localBranches = [];
+        const remoteBranches = [];
+        let currentBranch;
+        let branchesDictionary = {};
 
         for (let i = 0; i < lines.length; i++) {
-          let isRemote = lines[i].indexOf('origin/') > -1;
-          let isHEAD = lines[i].indexOf('HEAD ->') > -1;
-          let existsInAnyList = branchesDictionary[lines[i].trim()];
+          const isRemote = lines[i].indexOf('origin/') > -1;
+          const isHEAD = lines[i].indexOf('HEAD ->') > -1;
+          const existsInAnyList = branchesDictionary[lines[i].trim()];
 
           if (!existsInAnyList && !isHEAD && lines[i]) {
             if (isRemote) {
@@ -91,14 +91,14 @@ class Git {
   getStatus(path) {
     return this.performCommand('git status -sb', path).then(
       (stdout: String) => {
-        var syncStatus = {
+        const syncStatus = {
             ahead: null,
             behind: null
-          },
-          files = [],
-          lines = stdout.split('\n'),
-          unsynChanges,
-          unsyncParts;
+          };
+        const files = [];
+        const lines = stdout.split('\n');
+        let unsynChanges;
+        let unsyncParts;
 
         // First line ever is the sync numbers status
         unsynChanges = lines[0].substring(
@@ -109,7 +109,7 @@ class Git {
         unsyncParts = unsynChanges.split(',');
 
         unsyncParts.forEach(function(i) {
-          var item = i.trim();
+          const item = i.trim();
 
           if (item.indexOf('ahead') > -1) {
             syncStatus.ahead = item
@@ -122,7 +122,7 @@ class Git {
           }
         });
 
-        for (var i = 1; i < lines.length; i++) {
+        for (let i = 1; i < lines.length; i++) {
           if (lines[i]) {
             let staged = false,
               referenceChar,
@@ -130,7 +130,7 @@ class Git {
               Y = lines[i][1],
               statusItem;
 
-            if (lines[i][0] != ' ' && lines[i][0] != '?') {
+            if (lines[i][0] !== ' ' && lines[i][0] !== '?') {
               referenceChar = lines[i][0];
               staged = true;
             } else {
@@ -161,7 +161,7 @@ class Git {
                 break;
 
               case '?':
-                statusItem.type = 'NEW'; //UNTRACKED
+                statusItem.type = 'NEW'; // UNTRACKED
                 break;
 
               case 'A':
@@ -200,9 +200,9 @@ class Git {
    * @param  {Promise}
    */
   getCommitHistory(opts) {
-    let skip = opts.skip ? `--skip ${opts.skip}` : '',
-      filter = '',
-      command;
+    const skip = opts.skip ? `--skip ${opts.skip}` : '';
+    let filter = '';
+    let command;
 
     if (opts.filter && opts.filter.text) {
       switch (opts.filter.type) {
@@ -222,12 +222,12 @@ class Git {
 
     return this.performCommand(command, opts.path)
       .then((stdout: String) => {
-        var lines = stdout.split('-pieLineBreak-'),
+        const lines = stdout.split('-pieLineBreak-'),
           historyList = [];
 
-        for (var i = 0; i < lines.length; i++) {
+        for (let i = 0; i < lines.length; i++) {
           if (lines[i] !== '') {
-            var historyItem = lines[i].split('-gtseparator-');
+            const historyItem = lines[i].split('-gtseparator-');
 
             historyList.push({
               user: historyItem[0],
@@ -272,19 +272,19 @@ class Git {
       `git diff --numstat ${opts.ancestorHash} ${opts.hash}`,
       opts.path
     ).then((stdout: string) => {
-      var files = [];
+      const files = [];
 
-      var lines = stdout.split('\n');
+      const lines = stdout.split('\n');
 
       lines.forEach(function(line) {
         if (line) {
-          var props = line.split('\t');
+          const props = line.split('\t');
 
           files.push({
             name: props[2],
-            additions: parseInt(props[0]),
-            deletions: parseInt(props[1]),
-            isBinary: props[0] == '-' || props[1] == '-' ? true : false
+            additions: parseInt(props[0], 10),
+            deletions: parseInt(props[1], 10),
+            isBinary: props[0] === '-' || props[1] === '-' ? true : false
           });
         }
       });
@@ -333,8 +333,8 @@ class Git {
   listRemotes(path) {
     return this.performCommand('git remote show', path)
       .then((stdout: string) => {
-        let repositoryRemotes = {};
-        let remoteShowLines = stdout.split('\n');
+        const repositoryRemotes = {};
+        const remoteShowLines = stdout.split('\n');
 
         remoteShowLines.forEach(function(line) {
           if (line) {
@@ -344,8 +344,8 @@ class Git {
 
         if (Object.keys(repositoryRemotes).length > 0) {
           return this.showRemotes(path).then((remotes: string) => {
-            var remoteList = remotes.split('\n');
-            for (var remote in repositoryRemotes) {
+            const remoteList = remotes.split('\n');
+            for (const remote in repositoryRemotes) {
               for (let i = 0; i < remoteList.length; i++) {
                 if (remoteList[i].indexOf(remote) > -1) {
                   if (remoteList[i].indexOf('(push)') > -1) {
@@ -366,7 +366,7 @@ class Git {
             return repositoryRemotes;
           });
         } else {
-          let error = new Error(`The repository do not have any remote`);
+          const error = new Error(`The repository do not have any remote`);
           // error.code = 'ENOREMOTE';
 
           return error;
@@ -380,12 +380,12 @@ class Git {
   getGlobalConfigs() {
     return this.performCommand('git config --global -l').then(
       (stdout: string) => {
-        let configs = {};
-        var lines = stdout.split('\n');
+        const configs = {};
+        const lines = stdout.split('\n');
 
         lines.forEach(function(line) {
           if (line) {
-            var config = line.split('=');
+            const config = line.split('=');
             configs[config[0].trim()] = config[1].trim();
           }
         });
@@ -395,12 +395,12 @@ class Git {
 
   getLocalConfigs(path) {
     return this.performCommand('git config -l', path).then((stdout: string) => {
-      let configs = {};
-      var lines = stdout.split('\n');
+      const configs = {};
+      const lines = stdout.split('\n');
 
       lines.forEach(function(line) {
         if (line) {
-          var config = line.split('=');
+          const config = line.split('=');
           configs[config[0].trim()] = config[1].trim();
         }
       });
@@ -408,7 +408,7 @@ class Git {
   }
 
   discartChangesInFile(path, opts) {
-    var command = '';
+    let command = '';
 
     opts = opts || {};
 

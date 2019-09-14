@@ -26,8 +26,8 @@ export class AddRepositoryComponent implements OnInit {
   }
 
   showOpenDialog(bindVarName) {
-    let self = this;
-    let currentWindow = browserWindow.getFocusedWindow();
+    const self = this;
+    const currentWindow = browserWindow.getFocusedWindow();
 
     dialog.showOpenDialog(currentWindow, { properties: ['openDirectory'] }).then((result) => {
       // if (result.canceled) {
@@ -40,9 +40,9 @@ export class AddRepositoryComponent implements OnInit {
   }
 
   addRepository() {
-    this.store.dispatch(start())
+    this.store.dispatch(start());
     this.repositoryService.addRepository(this.repositoryPath).then(() => {
-      this.dialogRef.close()
+      this.dialogRef.close();
       this.store.dispatch(stop());
     });
   }

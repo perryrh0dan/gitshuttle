@@ -21,15 +21,15 @@ export class RepositoryService {
 
   load() {
     const repoList = Array<Repository>();
-    const repositoryString = localStorage.getItem('repos')
-    const repoArray = JSON.parse(repositoryString)
+    const repositoryString = localStorage.getItem('repos');
+    const repoArray = JSON.parse(repositoryString);
     if (repoArray) {
       repoArray.forEach(element => {
-        let repo = new Repository();
+        const repo = new Repository();
         repo.name = element.name;
         repo.path = element.path;
         repo.type = element.type;
-        repoList.push(repo)
+        repoList.push(repo);
       });
     }
     this.repositoriesSubject.next(repoList);
@@ -49,10 +49,10 @@ export class RepositoryService {
 
   addRepository(path) {
     return this.gitService.listRemotes(path).then(repositoryRemotes => {
-      let gitUrlParse = require('git-url-parse');
-      let gitUrl = gitUrlParse(repositoryRemotes.origin.push)
+      const gitUrlParse = require('git-url-parse');
+      const gitUrl = gitUrlParse(repositoryRemotes.origin.push);
       let repositoryExists;
-      let newRepository = new Repository();
+      const newRepository = new Repository();
       newRepository.name = gitUrl.name;
       newRepository.path = path;
 
@@ -72,18 +72,18 @@ export class RepositoryService {
       }
 
       if (!repositoryExists) {
-        let newRepositories = this.repositoriesSubject.value;
+        const newRepositories = this.repositoriesSubject.value;
         newRepositories.push(newRepository);
         this.save(newRepositories);
         this.currentRepositorySubject.next(newRepository);
       } else {
         this.currentRepositorySubject.next(repositoryExists);
       }
-    })
+    });
   }
 
   findWhere(array, object) {
-    for (var i = 0; i < array.length; i++) {
+    for (let i = 0; i < array.length; i++) {
       if (array[i][Object.keys(object)[0]] == object[Object.keys(object)[0]]) {
         return array[i];
       }

@@ -9,18 +9,18 @@ const wos = require('node-wos');
   styleUrls: ['./create-commit.component.scss'],
   animations: [
     trigger('creation', [
-      transition(":enter", [
+      transition(':enter', [
         style({ height: '0px' }),
         animate(150, style({ height: '100px' }))
       ]),
-      transition(":leave", [
+      transition(':leave', [
         animate(150, style({ height: '0px' }))
       ])
     ])
   ]
 })
 export class CreateCommitComponent implements OnInit {
-  @Input() status: String
+  @Input() status: String;
   @Output() onCommit: EventEmitter<String> = new EventEmitter<String>();
   @Output() onCommitAndPush: EventEmitter<String> = new EventEmitter<String>();
 

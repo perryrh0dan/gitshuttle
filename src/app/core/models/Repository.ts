@@ -1,11 +1,11 @@
 export enum RepoType {
   OTHER,
   GITHUB,
-  GITLAB, 
+  GITLAB,
 }
 
 export class Repository {
-  name: String
-  path: String
-  type: RepoType
+  name: String;
+  path: String;
+  type: RepoType;
 }

@@ -50,9 +50,9 @@ export class CommitsService {
         .getStatus(this.currentRepository.path)
         .then(status => {
           let i = 0;
-          let deorderedFiles = {};
-          let newChangesList = [];
-          let commitChanges = this.currentChangesSubject.value;
+          const deorderedFiles = {};
+          const newChangesList = [];
+          const commitChanges = this.currentChangesSubject.value;
 
           for (i; i < status.files.length; i++) {
             if (commitChanges[i]) {
@@ -89,19 +89,19 @@ export class CommitsService {
   loadCommitChanges() {
     const commit = this.selectedCommitSubject.value;
 
-    var opts = {
+    const opts = {
       hash: commit.hash,
       ancestorHash: commit.parentHash,
       path: this.currentRepository.path
     };
 
     this.gitService.getDiff(opts).then(files => {
-      let commitHistory = [];
+      const commitHistory = [];
 
       files.forEach(file => {
         if (file.name) {
           if (!file.isBinary) {
-            var changesHTML = [];
+            const changesHTML = [];
 
             if (file.additions > 0) {
               changesHTML.push(
@@ -135,7 +135,7 @@ export class CommitsService {
   }
 
   public async refresh() {
-    let promises = [];
+    const promises = [];
     promises.push(this.loadCurrentChanges());
     promises.push(this.loadCommits());
     Promise.all(promises).finally(() => {
