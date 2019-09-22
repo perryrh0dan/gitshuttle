@@ -14,7 +14,7 @@
 
 By utilizing a simple and minimal ui, that requires a flat learning curve, GitShuttle enables you to effectivly manage your repositories. GitShuttle is available for a windows, max and linux. 
 
-Come over to Gitter or Twitter to share your thoughts on the project.
+Come over to [Gitter](https://gitter.im/gitshuttle/community#) or [Twitter](https://twitter.com/perryrh0dan1) to share your thoughts on the project.
 
 ## Features
 
